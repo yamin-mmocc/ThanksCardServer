@@ -28,7 +28,7 @@ namespace ThanksCardServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationContext>(opt =>
-               opt.UseNpgsql("Host=localhost;User Id=postgres;Password=yamin-mmocc;Database=ThanksCard"));
+               opt.UseNpgsql("Host=localhost;User Id=postgres;Password=yamin-mmocc;Database=testdb"));
             services.AddControllers();
         }
 
