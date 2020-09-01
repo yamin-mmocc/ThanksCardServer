@@ -15,7 +15,9 @@ namespace ThanksCardServer.Migrations
                     Card_ID = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Card_Type = table.Column<string>(nullable: true),
-                    Card_Style = table.Column<string>(nullable: true)
+                    Card_Style = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    timeStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +30,9 @@ namespace ThanksCardServer.Migrations
                 {
                     Department_ID = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Department_Name = table.Column<string>(nullable: true)
+                    Department_Name = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    timeStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +58,9 @@ namespace ThanksCardServer.Migrations
                 {
                     Role_ID = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Role_Type = table.Column<string>(nullable: true)
+                    Role_Type = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    timeStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,6 +88,8 @@ namespace ThanksCardServer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     User_Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    timeStamp = table.Column<DateTime>(nullable: false),
                     Role_ID = table.Column<long>(nullable: true),
                     Department_ID = table.Column<long>(nullable: true)
                 },

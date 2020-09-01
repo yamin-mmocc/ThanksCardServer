@@ -10,6 +10,8 @@ namespace ThanksCardServer.Model
     public class Departments
     {        
         public string Department_Name { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime timeStamp { get; set; }
 
         [Key]
         public long Department_ID { get; set; }

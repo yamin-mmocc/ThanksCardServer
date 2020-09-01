@@ -9,6 +9,8 @@ namespace ThanksCardServer.Model
     public class Roles
     {
         public string Role_Type { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime timeStamp { get; set; }
 
         [Key]
         public long Role_ID { get; set; }        

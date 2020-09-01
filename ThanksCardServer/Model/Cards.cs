@@ -11,6 +11,8 @@ namespace ThanksCardServer.Model
     {
         public string Card_Type { get; set; }
         public string Card_Style { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime timeStamp { get; set; }
 
         [Key]
         public long Card_ID { get; set; }

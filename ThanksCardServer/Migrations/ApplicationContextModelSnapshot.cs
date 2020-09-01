@@ -32,6 +32,12 @@ namespace ThanksCardServer.Migrations
                     b.Property<string>("Card_Type")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("Card_ID");
 
                     b.ToTable("Cards");
@@ -46,6 +52,12 @@ namespace ThanksCardServer.Migrations
 
                     b.Property<string>("Department_Name")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Department_ID");
 
@@ -142,8 +154,14 @@ namespace ThanksCardServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Role_Type")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("Role_ID");
 
@@ -175,6 +193,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("Department_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -183,6 +204,9 @@ namespace ThanksCardServer.Migrations
 
                     b.Property<string>("User_Name")
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("User_ID");
 

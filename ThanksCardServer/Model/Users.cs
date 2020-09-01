@@ -11,7 +11,9 @@ namespace ThanksCardServer.Model
     {
         public string User_Name { get; set; }
         public string Password { get; set; }
-        
+        public bool IsActive { get; set; }
+        public DateTime timeStamp { get; set; }
+
         [Key]
         public long User_ID { get; set; }
 
