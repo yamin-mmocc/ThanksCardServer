@@ -12,7 +12,7 @@ namespace ThanksCardServer.Model
         public DateTime CreatedDateTime { get; set; }
 
         [Key]
-        public long SendLog_ID { get; set; }      
+        public long? SendLog_ID { get; set; }      
 
         public long? Card_ID { get; set; }
         [ForeignKey("Card_ID")]
@@ -26,9 +26,9 @@ namespace ThanksCardServer.Model
         [ForeignKey("Message_ID")]
         public virtual Messages Messages { get; set; }
 
-        public long Sender_ID { get; set; }
+        public long? Sender_ID { get; set; }
         public virtual Users From { get; set; }
-        public long Receiver_ID { get; set; }
+        public long? Receiver_ID { get; set; }
         public virtual Users To { get; set; }
 
         public ICollection<LogReceives> LogReceives { get; set; }

@@ -11,7 +11,7 @@ namespace ThanksCardServer.Model
         public string Status_Name { get; set; }
 
         [Key]
-        public int Status_Code { get; set; }        
+        public int? Status_Code { get; set; }        
 
         public ICollection<LogSends> LogSends { get; set; }
         public ICollection<LogReceives> LogReceives { get; set; }

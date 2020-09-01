@@ -120,9 +120,9 @@ namespace ThanksCardServer.Migrations
                     Card_ID = table.Column<long>(nullable: true),
                     Status_Code = table.Column<int>(nullable: true),
                     Message_ID = table.Column<long>(nullable: false),
-                    Sender_ID = table.Column<long>(nullable: false),
+                    Sender_ID = table.Column<long>(nullable: true),
                     FromUser_ID = table.Column<long>(nullable: true),
-                    Receiver_ID = table.Column<long>(nullable: false),
+                    Receiver_ID = table.Column<long>(nullable: true),
                     ToUser_ID = table.Column<long>(nullable: true)
                 },
                 constraints: table =>

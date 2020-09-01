@@ -15,7 +15,7 @@ namespace ThanksCardServer.Model
         public DateTime timeStamp { get; set; }
 
         [Key]
-        public long User_ID { get; set; }
+        public long? User_ID { get; set; }
 
         public long? Role_ID { get; set; }
         [ForeignKey("Role_ID")]

@@ -21,7 +21,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Cards", b =>
                 {
-                    b.Property<long>("Card_ID")
+                    b.Property<long?>("Card_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -45,7 +45,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Departments", b =>
                 {
-                    b.Property<long>("Department_ID")
+                    b.Property<long?>("Department_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -66,7 +66,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.LogReceives", b =>
                 {
-                    b.Property<long>("ReceiveLog_ID")
+                    b.Property<long?>("ReceiveLog_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -88,7 +88,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.LogSends", b =>
                 {
-                    b.Property<long>("SendLog_ID")
+                    b.Property<long?>("SendLog_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -105,10 +105,10 @@ namespace ThanksCardServer.Migrations
                     b.Property<long>("Message_ID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Receiver_ID")
+                    b.Property<long?>("Receiver_ID")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("Sender_ID")
+                    b.Property<long?>("Sender_ID")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("Status_Code")
@@ -134,7 +134,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Messages", b =>
                 {
-                    b.Property<long>("Message_ID")
+                    b.Property<long?>("Message_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -149,7 +149,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Roles", b =>
                 {
-                    b.Property<long>("Role_ID")
+                    b.Property<long?>("Role_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -170,7 +170,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Status", b =>
                 {
-                    b.Property<int>("Status_Code")
+                    b.Property<int?>("Status_Code")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
@@ -185,7 +185,7 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.Users", b =>
                 {
-                    b.Property<long>("User_ID")
+                    b.Property<long?>("User_ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);

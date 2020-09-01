@@ -11,7 +11,7 @@ namespace ThanksCardServer.Model
         public string Message_Text { get; set; }
 
         [Key]
-        public long Message_ID { get; set; }
+        public long? Message_ID { get; set; }
         
         public ICollection<LogSends> LogSends { get; set; }
     }

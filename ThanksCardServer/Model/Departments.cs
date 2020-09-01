@@ -14,7 +14,7 @@ namespace ThanksCardServer.Model
         public DateTime timeStamp { get; set; }
 
         [Key]
-        public long Department_ID { get; set; }
+        public long? Department_ID { get; set; }
 
         public ICollection<Users> Users { get; set; }
     }

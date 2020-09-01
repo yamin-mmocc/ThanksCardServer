@@ -10,7 +10,7 @@ namespace ThanksCardServer.Model
     public class LogReceives
     {
         [Key]
-        public long ReceiveLog_ID { get; set; }
+        public long? ReceiveLog_ID { get; set; }
 
         public int? Status_Code { get; set; }
         [ForeignKey("Status_Code")]
