@@ -8,10 +8,8 @@ namespace ThanksCardServer.Model
 {
     public class ApplicationContext : DbContext
     {
-        public ApplicationContext(DbContextOptions<ApplicationContext> options)
-           : base(options)
-        {
-        }
+        public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
+        
         public DbSet<Users> Users { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Departments> Departments { get; set; }
@@ -19,5 +17,16 @@ namespace ThanksCardServer.Model
         public DbSet<LogSends> LogSends { get; set; }
         public DbSet<Messages> Messages { get; set; }
         public DbSet<Status> Status { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
+        //}
+
+        //public override int SaveChanges()
+        //{
+        //    ChangeTracker.DetectChanges();
+        //    return base.SaveChanges();
+        //}
     }
 }
