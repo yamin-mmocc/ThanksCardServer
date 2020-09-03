@@ -16,5 +16,7 @@ namespace ThanksCardServer.DataAccess
 
         Task<List<Cards>> GetCards();
         string CreateCards(Cards card);
+        object CreateRoles(Roles role);
+        Task GetRoles();
     }
 }

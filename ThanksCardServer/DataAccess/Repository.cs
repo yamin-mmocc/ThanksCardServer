@@ -100,5 +100,14 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        public object CreateRoles(Roles role)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task GetRoles()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
