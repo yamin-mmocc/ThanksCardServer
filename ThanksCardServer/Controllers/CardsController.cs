@@ -121,7 +121,7 @@ namespace ThanksCardServer.Controllers
         {
             try
             {
-                var card = await postRepository.GetCard();
+                var card = await postRepository.GetCards();
                 if (card == null)
                 {
                     return NotFound();
@@ -146,7 +146,7 @@ namespace ThanksCardServer.Controllers
             try
             {
                 // save 
-                result = postRepository.CreateCard(card).ToString();
+                result = postRepository.CreateCards(card).ToString();
             }
             catch (Exception)
             {
