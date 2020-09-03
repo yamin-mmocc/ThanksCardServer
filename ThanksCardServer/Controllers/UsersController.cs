@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ThanksCardServer.Model;
 using Newtonsoft.Json;
 using System;
+using ThanksCardServer.DataAccess;
 
 namespace ThanksCardServer.Controllers
 {
@@ -13,12 +14,12 @@ namespace ThanksCardServer.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly ApplicationContext _context;
+        //private readonly ApplicationContext _context;
 
-        public UsersController(ApplicationContext context)
-        {
-            _context = context;
-        }
+        //public UsersController(ApplicationContext context)
+        //{
+        //    _context = context;
+        //}
         //start
         //// GET: api/Users
         //[HttpGet]
@@ -188,45 +189,92 @@ namespace ThanksCardServer.Controllers
         //    return users;
         //}
 
-        //yamin start1
+        //yamin test
         // POST: api/Users
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        [Route("Login")]
-        public string CheckUser(string user_name, string password)
+        //[HttpPost]
+        //[Route("Login")]
+        //public string CheckUser(string user_name, string password)
+        //{
+        //    // var user = await _context.Users.FindAsync(id);
+        //    var user = _context.Users.Where(e => e.User_Name == user_name && e.Password == password);
+        //    IDictionary<string, string> result = new Dictionary<string, string>();
+        //    if (user != null)
+        //    {
+        //        result["status"] = "200";
+        //        result["message"] = "Login Success";
+        //    }
+        //    else
+        //    {
+        //        result["status"] = "404";
+        //        result["message"] = "Login Denied";
+        //    }
+        //    return JsonConvert.SerializeObject(result);
+        //}
+
+        //[HttpPost]
+        //[Route("Register")]
+        //public string CreateUser(Users user)
+        //{            
+        //    try 
+        //    {
+        //        // save 
+        //        _context.SaveChangesAsync();
+        //        return "Successfully Register";
+        //    } 
+        //    catch(Exception ex)
+        //    {
+        //        // return error message if there was an exception
+        //        return "Try Again";
+        //    }
+        //}
+        //yamin test
+
+        private readonly IPostRepository postRepository;
+        public UsersController(IPostRepository _postRepository)
         {
-            // var user = await _context.Users.FindAsync(id);
-            var user = _context.Users.Where(e => e.User_Name == user_name && e.Password == password);
-            IDictionary<string, string> result = new Dictionary<string, string>();
-            if (user != null)
-            {
-                result["status"] = "200";
-                result["message"] = "Login Success";
-            }
-            else
-            {
-                result["status"] = "404";
-                result["message"] = "Login Denied";
-            }
-            return JsonConvert.SerializeObject(result);
+            postRepository = _postRepository;
         }
 
+        [HttpGet]
+        [Route("GetUsers")]
+        public async Task<IActionResult> GetUser()
+        {
+            try
+            {
+                var user = await postRepository.GetUsers();
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+        //yamin test
+
         [HttpPost]
-        [Route("Register")]
-        public string CreateUser(Users user)
-        {            
-            try 
+        [Route("CreateUser")]
+        public string Register(Users user)
+        {
+            //IDictionary<string, string> response = new Dictionary<string, string>();
+            string result;
+            try
             {
                 // save 
-                _context.SaveChangesAsync();
-                return "Successfully Register";
-            } 
-            catch(Exception ex)
-            {
-                // return error message if there was an exception
-                return "Try Again";
+                result = postRepository.CreateUsers(user).ToString();
             }
+            catch (Exception)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
         }
     }
 }

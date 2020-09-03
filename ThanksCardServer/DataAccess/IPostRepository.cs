@@ -10,5 +10,11 @@ namespace ThanksCardServer.DataAccess
     {
         Task<List<Departments>> GetDepartments();
         string CreateDepartments(Departments dept);
+
+        Task<List<Users>> GetUsers();
+        string CreateUsers(Users user);
+
+        Task<List<Cards>> GetCard();
+        string CreateCard(Cards card);
     }
 }

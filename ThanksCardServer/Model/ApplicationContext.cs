@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ThanksCardServer.Model;
 
 namespace ThanksCardServer.Model
 {
@@ -17,6 +18,7 @@ namespace ThanksCardServer.Model
         public DbSet<LogSends> LogSends { get; set; }
         public DbSet<Messages> Messages { get; set; }
         public DbSet<Status> Status { get; set; }
+        public DbSet<ThanksCardServer.Model.Cards> Cards { get; set; }
 
         //protected override void OnModelCreating(ModelBuilder builder)
         //{
