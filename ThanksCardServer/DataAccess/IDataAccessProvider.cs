@@ -11,7 +11,7 @@ namespace ThanksCardServer.DataAccess
         IEnumerable<Departments> GetAll();
         Departments GetById(long id);
         Departments Create(Departments dept);
-        void Update(Departments user);
+        void Update(Departments dept);
         void Delete(long id);
     }
 

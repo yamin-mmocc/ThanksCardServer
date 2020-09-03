@@ -34,9 +34,12 @@ namespace ThanksCardServer
             services.AddDbContext<ApplicationContext>(opt =>
             opt.UseNpgsql("Host=localhost;User Id=postgres;Password=yamin-mmocc;Database=ThanksCard"));
             services.AddControllers();
-            services.AddScoped<IDataAccessProvider, DataAccessProvider>();
+            services.AddScoped<IPostRepository, Repository>();
 
+            services.AddCors(option => option.AddPolicy("MyBlogPolicy", builder => {
+                builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 
+            }));
 
         }
 
@@ -58,6 +61,8 @@ namespace ThanksCardServer
             {
                 endpoints.MapControllers();
             });
+
+            app.UseCors("MyBlogPolicy");
         }
     }
 }

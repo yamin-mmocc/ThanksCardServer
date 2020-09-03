@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+//using ServiceStack;
 using ThanksCardServer.DataAccess;
 using ThanksCardServer.Helper;
 using ThanksCardServer.Model;
+
 
 namespace ThanksCardServer.Controllers
 {
@@ -17,11 +19,11 @@ namespace ThanksCardServer.Controllers
     [ApiController]
     public class DepartmentsController : ControllerBase
     {
-        private readonly ApplicationContext _context;
-        public DepartmentsController(ApplicationContext context)
-        {
-            _context = context;
-        }
+        //private readonly ApplicationContext _context;
+        //public DepartmentsController(ApplicationContext context)
+        //{
+        //    _context = context;
+        //}
         //private readonly IDataAccessProvider _dataAccessProvider;
 
         //public DepartmentsController(IDataAccessProvider dataAccessProvider)
@@ -196,42 +198,116 @@ namespace ThanksCardServer.Controllers
         //    _dataAccessProvider.Delete(id);
         //    return Ok();
         //}
+        //real
+        //[HttpPost]
+        //[Route("CreateDept")]
+        //public string Register(Departments dept)
+        //{
+        //    var department = new Departments();
+        //    department.Department_Name = dept.Department_Name;
+        //    department.IsActive = dept.IsActive;
+        //    department.timeStamp = dept.timeStamp;
+        //    _context.Departments.Add(department);
+
+        //    IDictionary<string, string> result = new Dictionary<string, string>();
+        //    try
+        //    {
+        //        _context.SaveChanges();
+        //        result["status"] = "200";
+        //        result["message"] = "Success";
+        //    }
+        //    catch
+        //    {
+        //        result["status"] = "404";
+        //        result["message"] = "Failed";
+        //    }
+        //    return JsonConvert.SerializeObject(result);
+        //    //try
+        //    //{
+        //    //    // save 
+        //    //    //_dataAccessProvider.Create(dept);
+        //    //    return "OK";
+        //    //}
+        //    //catch (AppException ex)
+        //    //{
+        //    //    // return error message if there was an exception
+        //    //    return "NotOK";
+        //    //}
+        //}
+
+
+        //[HttpGet]
+        //[Route("GetDept")]
+        //public String GetDepartmentList()
+        //{
+        //    IDictionary<string, List<object>> result = new Dictionary<string, List<object>>();
+        //    List<object> returndata = new List<object>();
+        //    List<object> returnstatus = new List<object>();
+        //    try
+        //    {
+        //        returnstatus.Add("Success");
+        //        //returndata = (List<object>)_context.Departments.ToObjects();
+        //        result["status"] = returnstatus;
+        //        result["menu"] = returndata;
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        //retdata.statuscode = "401";
+        //        //retdata.status = "Unauthorized";
+        //        returnstatus.Add("Failed");
+        //        result["status"] = returnstatus;               
+        //        result["menu"] = returndata;
+        //    }
+        //    return JsonConvert.SerializeObject(result);
+        //}
+        //real
+
+        //yamin test
+        private readonly IPostRepository postRepository;
+        public DepartmentsController(IPostRepository _postRepository)
+        {
+            postRepository = _postRepository;
+        }
+
+        [HttpGet]
+        [Route("GetDepartments")]
+        public async Task<IActionResult> GetDept()
+        {
+            try
+            {
+                var depart = await postRepository.GetDepartments();
+                if (depart == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(depart);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+        //yamin test
 
         [HttpPost]
         [Route("CreateDept")]
         public string Register(Departments dept)
         {
-            var department = new Departments();
-            department.Department_Name = dept.Department_Name;
-            department.IsActive = dept.IsActive;
-            department.timeStamp = dept.timeStamp;
-            _context.Departments.Add(department);
-            
-            IDictionary<string, string> result = new Dictionary<string, string>();
+            //IDictionary<string, string> response = new Dictionary<string, string>();
+            string result;
             try
             {
-                _context.SaveChangesAsync();
-                result["status"] = "200";
-                result["message"] = "Success";
+                // save 
+                result = postRepository.CreateDepartments(dept).ToString();            
             }
-            catch
+            catch (Exception)
             {
-                result["status"] = "404";
-                result["message"] = "Failed";
+                result = "Error";
             }
             return JsonConvert.SerializeObject(result);
-            //try
-            //{
-            //    // save 
-            //    //_dataAccessProvider.Create(dept);
-            //    return "OK";
-            //}
-            //catch (AppException ex)
-            //{
-            //    // return error message if there was an exception
-            //    return "NotOK";
-            //}
-        }
 
+        }
     }
 }
