@@ -24,11 +24,11 @@ namespace ThanksCardServer.Controllers
 
         [HttpGet]
         [Route("GetRoles")]
-        public async Task<IActionResult> GetRoles()
+        public async Task<IActionResult> GetRole()
         {
             try
             {
-                var role = postRepository.GetRoles();
+                var role = await postRepository.GetRoles();
                 if (role == null)
                 {
                     return NotFound();
@@ -40,6 +40,7 @@ namespace ThanksCardServer.Controllers
             {
                 return BadRequest();
             }
+
         }
 
         [HttpPost]

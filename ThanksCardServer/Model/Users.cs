@@ -14,9 +14,6 @@ namespace ThanksCardServer.Model
         public bool IsActive { get; set; }
         public DateTime timeStamp { get; set; }
 
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
-
         [Key]
         public long? User_ID { get; set; }
 

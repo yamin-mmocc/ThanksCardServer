@@ -276,5 +276,25 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost("authenticate")]
+        public IActionResult Authenticate(Users userto)
+        {
+            var user = postRepository.Authenticate(userto.User_Name, userto.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            
+
+            // return basic user info (without password) and token to store client side
+            return Ok(new
+            {
+                User_ID = user.User_ID,
+                Username = user.User_Name,
+                Role_ID= user.Role_ID,
+                Department_ID =user.Department_ID
+            });
+        }
     }
 }

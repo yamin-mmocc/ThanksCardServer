@@ -100,14 +100,52 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
-        public object CreateRoles(Roles role)
+        public string CreateRoles(Roles role)
         {
-            throw new NotImplementedException();
+            string result;
+
+            // department check if the new department name is already taken
+            if (context.Roles.Any(x => x.Role_Type == role.Role_Type))
+                result = "Role Type : " + role.Role_Type + " is already exit.";
+
+            else
+            {
+                context.Roles.Add(role);
+                context.SaveChanges();
+                result = "Success";
+            }
+
+            return result;
         }
 
-        public Task GetRoles()
+        public async Task<List<Roles>> GetRoles()
         {
-            throw new NotImplementedException();
+            if (context != null)
+            {
+                return await context.Roles.ToListAsync();
+            }
+
+            return null;
+        }
+
+        public Users Authenticate(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                return null;
+
+            var user = context.Users.SingleOrDefault(x => x.User_Name == username);
+
+            // check if username exists
+            if (user == null)
+                return null;
+
+            // check if password is correct
+            var pw = context.Users.SingleOrDefault(x => x.Password == password);
+            if (pw == null)
+                return null;
+
+            // authentication successful
+            return user;
         }
     }
 }
