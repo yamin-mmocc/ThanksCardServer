@@ -13,7 +13,7 @@ namespace ThanksCardServer.DataAccess
         
 
         Task<List<Users>> GetUsers();
-        string CreateUsers(Users user);
+        string CreateUsers(Users user, string password);
 
         Task<List<Cards>> GetCards();
         string CreateCards(Cards card);

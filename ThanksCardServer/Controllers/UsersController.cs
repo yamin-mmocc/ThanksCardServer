@@ -268,7 +268,7 @@ namespace ThanksCardServer.Controllers
             try
             {
                 // save 
-                result = postRepository.CreateUsers(user).ToString();
+                result = postRepository.CreateUsers(user,user.Password).ToString();
             }
             catch (Exception)
             {

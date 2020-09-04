@@ -90,6 +90,8 @@ namespace ThanksCardServer.Migrations
                     Password = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
                     timeStamp = table.Column<DateTime>(nullable: false),
+                    PasswordHash = table.Column<byte[]>(nullable: true),
+                    PasswordSalt = table.Column<byte[]>(nullable: true),
                     Role_ID = table.Column<long>(nullable: true),
                     Department_ID = table.Column<long>(nullable: true)
                 },
