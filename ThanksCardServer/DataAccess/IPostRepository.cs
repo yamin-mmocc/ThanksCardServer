@@ -10,7 +10,8 @@ namespace ThanksCardServer.DataAccess
     {
         Task<List<Departments>> GetDepartments();
         string CreateDepartments(Departments dept);
-        
+        string DeleteDepartment(long DeptID);
+
 
         Task<List<Users>> GetUsers();
         string CreateUsers(Users user, string password);

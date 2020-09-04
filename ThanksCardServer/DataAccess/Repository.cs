@@ -118,6 +118,7 @@ namespace ThanksCardServer.DataAccess
                               select new Cards
                               {
                                   Card_ID = card.Card_ID,
+                                  Card_Type = card.Card_Type,
                                   Card_Style = card.Card_Style,
                                   IsActive = card.IsActive,
                                   timeStamp = card.timeStamp
@@ -253,6 +254,29 @@ namespace ThanksCardServer.DataAccess
             }
 
             return true;
+        }
+
+        public string DeleteDepartment(long DeptID)
+        {
+            string result = "";
+
+            if (context != null)
+            {
+                //Find the post for specific post id
+                var del = context.Departments.FirstOrDefaultAsync(x => x.Department_ID == DeptID);
+
+                if (del != null)
+                {
+                    Departments dept = context.Departments
+                                       .First(i => i.Department_ID == DeptID);
+                    dept.IsActive = false;
+                    context.SaveChanges();
+                    result = "Success";
+                }
+                return result;
+            }
+
+            return result;
         }
     }
 }
