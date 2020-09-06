@@ -353,5 +353,26 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost]
+        [Route("GetUserInfoByName")]
+        public async Task<IActionResult> GetUserInfoByName(UserDepartmentRole udr)
+        {
+            try
+            {
+                var user = await postRepository.getUserInfoByName(udr.User_Name);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
     }
 }

@@ -518,12 +518,30 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
-        public string getUserIDByName(string username)
+        public async Task<List<UserDepartmentRole>> getUserInfoByName(string username)
         {
-            string result = "";
+            if (context != null)
+            {
+                //return await context.Cards.ToListAsync();
 
+                return await(from u in context.Users
+                             join d in context.Departments
+                             on u.Department_ID equals d.Department_ID
+                             join r in context.Roles
+                             on u.Role_ID equals r.Role_ID
+                             where u.IsActive == true &&
+                                  u.User_Name == username
+                             select new UserDepartmentRole
+                             {
+                                 User_ID = u.User_ID,
+                                 Department_ID = u.Department_ID,
+                                 Department_Name = d.Department_Name,
+                                 Role_ID = u.Role_ID,
+                                 Role_Type = r.Role_Type
+                             }).ToListAsync();
+            }
 
-            return result;
+            return null;
         }
     }  
 }

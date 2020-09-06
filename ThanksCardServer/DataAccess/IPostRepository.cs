@@ -16,7 +16,7 @@ namespace ThanksCardServer.DataAccess
         Task<List<UserDepartmentRole>> GetUsers(string name, string deptname);
         string CreateUsers(Users user, string password);
         string DeleteUser(long? User_ID);
-        string getUserIDByName(string username);
+        Task<List<UserDepartmentRole>> getUserInfoByName(string username);
 
         Task<List<Cards>> GetCards();
         string CreateCards(Cards card);
