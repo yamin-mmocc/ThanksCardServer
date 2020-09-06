@@ -10,7 +10,7 @@ using ThanksCardServer.Model;
 namespace ThanksCardServer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200904042712_InitialMigration")]
+    [Migration("20200905084347_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

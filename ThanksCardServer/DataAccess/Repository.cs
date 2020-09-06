@@ -45,19 +45,141 @@ namespace ThanksCardServer.DataAccess
 
             else
             {
-                context.Departments.Add(dept);
-                context.SaveChanges();
-                result = "Success";
+                try
+                {
+                    context.Departments.Add(dept);
+                    context.SaveChanges();
+                    result = "Successfully Saved";
+                }catch(Exception ex)
+                {
+                    result = "Somethings Wrong";
+                }
             }
 
             return result;
         }
 
-        public async Task<List<Users>> GetUsers()
+        //public async Task<List<UserDepartmentRole>> GetUsers()
+        //{
+        //    if (context != null)
+        //    {
+        //        //return await context.Departments.ToListAsync();
+        //        return await (from u in context.Users
+        //                      join d in context.Departments
+        //                      on u.Department_ID equals d.Department_ID
+        //                      join r in context.Roles
+        //                      on u.Role_ID equals r.Role_ID
+        //                      where u.IsActive == true                              
+        //                      select new UserDepartmentRole
+        //                      {
+        //                          User_ID = u.User_ID,
+        //                          User_Name = u.User_Name,
+        //                          Password = u.Password,
+        //                          IsActive = u.IsActive,
+        //                          timeStamp = u.timeStamp,
+        //                          Department_ID = d.Department_ID,                                 
+        //                          Department_Name = d.Department_Name,
+        //                          Role_ID= r.Role_ID,
+        //                          Role_Type = r.Role_Type
+        //                      }).ToListAsync();
+        //    }
+
+        //    return null;
+        //}
+
+        public async Task<List<UserDepartmentRole>> GetUsers(string name, string deptname)
         {
             if (context != null)
             {
-                return await context.Users.ToListAsync();
+                //return await context.Departments.ToListAsync();
+                if (name != "" && deptname != "")
+                {
+                    return await (from u in context.Users
+                                  join d in context.Departments
+                                  on u.Department_ID equals d.Department_ID
+                                  join r in context.Roles
+                                  on u.Role_ID equals r.Role_ID
+                                  where u.IsActive == true &&
+                                  u.User_Name.ToLower().Contains(name.ToLower()) &&
+                                  d.Department_Name == deptname
+                                  select new UserDepartmentRole
+                              {
+                                  User_ID = u.User_ID,
+                                  User_Name = u.User_Name,
+                                  Password = u.Password,
+                                  IsActive = u.IsActive,
+                                  timeStamp = u.timeStamp,
+                                  Department_ID = d.Department_ID,
+                                  Department_Name = d.Department_Name,
+                                  Role_ID = r.Role_ID,
+                                  Role_Type = r.Role_Type
+                              }).ToListAsync();
+                }
+                else if(name != "")
+                {
+                    return await (from u in context.Users
+                                  join d in context.Departments
+                                  on u.Department_ID equals d.Department_ID
+                                  join r in context.Roles
+                                  on u.Role_ID equals r.Role_ID
+                                  where u.IsActive == true &&
+                                  u.User_Name.ToLower().Contains(name.ToLower())                                   
+                                  select new UserDepartmentRole
+                                  {
+                                      User_ID = u.User_ID,
+                                      User_Name = u.User_Name,
+                                      Password = u.Password,
+                                      IsActive = u.IsActive,
+                                      timeStamp = u.timeStamp,
+                                      Department_ID = d.Department_ID,
+                                      Department_Name = d.Department_Name,
+                                      Role_ID = r.Role_ID,
+                                      Role_Type = r.Role_Type
+                                  }).ToListAsync();
+                }
+                else if(deptname != "")
+                {
+                    return await (from u in context.Users
+                                  join d in context.Departments
+                                  on u.Department_ID equals d.Department_ID
+                                  join r in context.Roles
+                                  on u.Role_ID equals r.Role_ID
+                                  where u.IsActive == true &&
+                                  d.Department_Name == deptname
+                                  select new UserDepartmentRole
+                                  {
+                                      User_ID = u.User_ID,
+                                      User_Name = u.User_Name,
+                                      Password = u.Password,
+                                      IsActive = u.IsActive,
+                                      timeStamp = u.timeStamp,
+                                      Department_ID = d.Department_ID,
+                                      Department_Name = d.Department_Name,
+                                      Role_ID = r.Role_ID,
+                                      Role_Type = r.Role_Type
+                                  }).ToListAsync();
+                }
+                else
+                {
+                    return await (from u in context.Users
+                                  join d in context.Departments
+                                  on u.Department_ID equals d.Department_ID
+                                  join r in context.Roles
+                                  on u.Role_ID equals r.Role_ID
+                                  where u.IsActive == true 
+                                  select new UserDepartmentRole
+                                  {
+                                      User_ID = u.User_ID,
+                                      User_Name = u.User_Name,
+                                      Password = u.Password,
+                                      IsActive = u.IsActive,
+                                      timeStamp = u.timeStamp,
+                                      Department_ID = d.Department_ID,
+                                      Department_Name = d.Department_Name,
+                                      Role_ID = r.Role_ID,
+                                      Role_Type = r.Role_Type
+                                  }).ToListAsync();
+                }
             }
 
             return null;
@@ -99,10 +221,16 @@ namespace ThanksCardServer.DataAccess
 
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
-
-                context.Users.Add(user);
-                context.SaveChanges();
-                result = "Success";
+                try
+                {
+                    context.Users.Add(user);
+                    context.SaveChanges();
+                    result = "Successfully Saved";
+                }
+                catch(Exception ex)
+                {
+                    result = "Somethings Wrong";
+                }
             }
             return result;
         }
@@ -138,9 +266,15 @@ namespace ThanksCardServer.DataAccess
 
             else
             {
-                context.Cards.Add(card);
-                context.SaveChanges();
-                result = "Success";
+                try
+                {
+                    context.Cards.Add(card);
+                    context.SaveChanges();
+                    result = "Successfully Saved";
+                }catch(Exception ex)
+                {
+                    result = "Somethings Wrong";
+                }
             }
 
             return result;
@@ -156,9 +290,15 @@ namespace ThanksCardServer.DataAccess
 
             else
             {
-                context.Roles.Add(role);
-                context.SaveChanges();
-                result = "Success";
+                try
+                {
+                    context.Roles.Add(role);
+                    context.SaveChanges();
+                    result = "Successfully Saved";
+                }catch(Exception ex)
+                {
+                    result = "Somethings Wrong";
+                }
             }
 
             return result;
@@ -256,27 +396,134 @@ namespace ThanksCardServer.DataAccess
             return true;
         }
 
-        public string DeleteDepartment(long DeptID)
+        public string DeleteDepartment(long? DeptID)
         {
             string result = "";
 
             if (context != null)
             {
-                //Find the post for specific post id
-                var del = context.Departments.FirstOrDefaultAsync(x => x.Department_ID == DeptID);
-
-                if (del != null)
-                {
+                try
+                {                   
                     Departments dept = context.Departments
                                        .First(i => i.Department_ID == DeptID);
                     dept.IsActive = false;
                     context.SaveChanges();
-                    result = "Success";
+                    result = "Successfully Deleted";                    
+                }catch(Exception ex)
+                {
+                    result = "Something Wrong";
                 }
-                return result;
             }
 
             return result;
         }
-    }
+
+        public string DeleteUser(long? User_ID)
+        {
+            string result = "";
+
+            if (context != null)
+            {
+                try
+                {
+                    Users user = context.Users
+                                       .First(i => i.User_ID == User_ID);
+                    user.IsActive = false;
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+
+            return result;
+        }
+
+        public string DeleteCard(long? cardID)
+        {
+            string result = "";
+
+            if (context != null)
+            {
+                try
+                {
+                    Cards card = context.Cards
+                                       .First(i => i.Card_ID == cardID);
+                    card.IsActive = false;
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+
+            return result;
+        }
+
+        public string DeleteRole(long? roleID)
+        {
+            string result = "";
+
+            if (context != null)
+            {
+                try
+                {
+                    Roles role = context.Roles
+                                       .First(i => i.Role_ID == roleID);
+                    role.IsActive = false;
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+
+            return result;
+        }
+
+        public string ChangePassword(Users user, string currentPwd, string newPwd)
+        {
+            string result = "";
+            if (string.IsNullOrWhiteSpace(currentPwd) || string.IsNullOrWhiteSpace(newPwd))
+                result = "Password is required";
+
+            var u = context.Users.SingleOrDefault(x => x.User_Name == user.User_Name);
+
+            // check if username exists
+            if (u == null)
+                result = "User Name does not exit";
+            else
+            {
+                // check if password is correct
+                if (!VerifyPasswordHash(currentPwd, user.PasswordHash, user.PasswordSalt))
+                    result = "Current Password is Wrong";
+                else
+                {
+                    byte[] passwordHash, passwordSalt;
+                    CreatePasswordHash(newPwd, out passwordHash, out passwordSalt);
+                    Users users = context.Users
+                                       .First(i => i.User_Name == user.User_Name);
+                    user.PasswordHash = passwordHash;
+                    user.PasswordSalt = passwordSalt;
+                    context.SaveChanges();
+                    result = "Password Changed Successfully";
+                }                
+            }
+            return result;
+        }
+
+        public string getUserIDByName(string username)
+        {
+            string result = "";
+
+
+            return result;
+        }
+    }  
 }

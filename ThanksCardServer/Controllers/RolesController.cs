@@ -61,5 +61,23 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
             //added
         }
+
+        [HttpPost]
+        [Route("DeleteRole")]
+        public string Delete(long RoleID)
+        {
+            string result = "";
+            try
+            {
+                if (RoleID != null || RoleID != 0)
+                    // delete 
+                    result = postRepository.DeleteRole(RoleID).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

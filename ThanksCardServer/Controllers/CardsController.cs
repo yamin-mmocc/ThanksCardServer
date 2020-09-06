@@ -155,5 +155,23 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
 
         }
+
+        [HttpPost]
+        [Route("DeleteCard")]
+        public string Delete(long CardID)
+        {
+            string result = "";
+            try
+            {
+                if ( CardID != 0)
+                    // delete 
+                    result = postRepository.DeleteCard(CardID).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

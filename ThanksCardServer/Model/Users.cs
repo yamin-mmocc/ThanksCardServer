@@ -25,6 +25,6 @@ namespace ThanksCardServer.Model
 
         public long? Department_ID { get; set; }
         [ForeignKey("Department_ID")]
-        public virtual Departments Departments { get; set; }
+        public Departments Departments { get; set; }
     }
 }

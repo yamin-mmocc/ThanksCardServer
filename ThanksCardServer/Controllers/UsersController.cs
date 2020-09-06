@@ -237,13 +237,35 @@ namespace ThanksCardServer.Controllers
             postRepository = _postRepository;
         }
 
-        [HttpGet]
+        //[HttpGet]
+        //[Route("GetUsers")]
+        //public async Task<IActionResult> GetUser()
+        //{
+        //    try
+        //    {
+        //        var user = await postRepository.GetUsers();
+        //        if (user == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        return Ok(user);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //}
+        //yamin test
+
+        [HttpPost]
         [Route("GetUsers")]
-        public async Task<IActionResult> GetUser()
+        public async Task<IActionResult> GetUser(UserDepartmentRole udr)
         {
             try
             {
-                var user = await postRepository.GetUsers();
+                var user = await postRepository.GetUsers(udr.User_Name,udr.Department_Name);
                 if (user == null)
                 {
                     return NotFound();
@@ -257,7 +279,6 @@ namespace ThanksCardServer.Controllers
             }
 
         }
-        //yamin test
 
         [HttpPost]
         [Route("CreateUser")]
@@ -295,6 +316,42 @@ namespace ThanksCardServer.Controllers
                 Role_ID= user.Role_ID,
                 Department_ID =user.Department_ID
             });
+        }
+
+        [HttpPost]
+        [Route("DeleteUser")]
+        public string Delete(long UserID)
+        {
+            string result = "";
+            try
+            {
+                if (UserID != null || UserID != 0)
+                    // delete 
+                    result = postRepository.DeleteUser(UserID).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
+
+        [HttpPost]
+        [Route("ChangePassword")]
+        public string PasswordChange(Users user,string currentPwd, string newPwd)
+        {
+            //IDictionary<string, string> response = new Dictionary<string, string>();
+            string result;
+            try
+            {
+                // save 
+                result = postRepository.ChangePassword(user, currentPwd, newPwd).ToString();
+            }
+            catch (Exception)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
         }
     }
 }

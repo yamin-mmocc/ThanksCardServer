@@ -302,12 +302,30 @@ namespace ThanksCardServer.Controllers
                 // save 
                 result = postRepository.CreateDepartments(dept).ToString();            
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 result = "Error";
             }
             return JsonConvert.SerializeObject(result);
 
+        }
+
+        [HttpPost]
+        [Route("DeleteDept")]
+        public string Delete(long DeptID)
+        {
+            string result="";
+            try
+            {
+                if(DeptID != null || DeptID != 0)
+                // delete 
+                result = postRepository.DeleteDepartment(DeptID).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
         }
     }
 }
