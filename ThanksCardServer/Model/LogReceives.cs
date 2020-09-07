@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class LogReceives
+    public class LogReceives //YME created
     {
         [Key]
         public long? ReceiveLog_ID { get; set; }

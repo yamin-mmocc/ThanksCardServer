@@ -12,7 +12,7 @@ namespace ThanksCardServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : ControllerBase //YME created
     {
         //private readonly ApplicationContext _context;
 
@@ -231,13 +231,14 @@ namespace ThanksCardServer.Controllers
         //}
         //yamin test
 
+        //YME add
         private readonly IPostRepository postRepository;
         public UsersController(IPostRepository _postRepository)
         {
             postRepository = _postRepository;
         }
 
-        //[HttpGet]
+        //[HttpGet] //YME deleted
         //[Route("GetUsers")]
         //public async Task<IActionResult> GetUser()
         //{
@@ -259,7 +260,7 @@ namespace ThanksCardServer.Controllers
         //}
         //yamin test
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("GetUsers")]
         public async Task<IActionResult> GetUser(UserDepartmentRole udr)
         {
@@ -280,7 +281,7 @@ namespace ThanksCardServer.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("CreateUser")]
         public string Register(Users user)
         {
@@ -298,7 +299,7 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost("authenticate")] //YME add
         public IActionResult Authenticate(Users userto)
         {
             var user = postRepository.Authenticate(userto.User_Name, userto.Password);
@@ -318,7 +319,7 @@ namespace ThanksCardServer.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("DeleteUser")]
         public string Delete(long UserID)
         {
@@ -336,7 +337,7 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("ChangePassword")]
         public string PasswordChange(Users user,string currentPwd, string newPwd)
         {
@@ -354,7 +355,7 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("GetUserInfoByName")]
         public async Task<IActionResult> GetUserInfoByName(UserDepartmentRole udr)
         {

@@ -13,7 +13,7 @@ namespace ThanksCardServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CardsController : ControllerBase
+    public class CardsController : ControllerBase  //YME created
     {
         //private readonly ApplicationContext _context;
 
@@ -108,14 +108,14 @@ namespace ThanksCardServer.Controllers
         //    return _context.Cards.Any(e => e.Card_ID == id);
         //}
 
-        //yamin test
+        //yamin add
         private readonly IPostRepository postRepository;
         public CardsController(IPostRepository _postRepository)
         {
             postRepository = _postRepository;
         }
 
-        [HttpGet]
+        [HttpGet] //YME add
         [Route("GetCards")]
         public async Task<IActionResult> GetCard()
         {
@@ -137,7 +137,7 @@ namespace ThanksCardServer.Controllers
         }
         //yamin test
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("CreateCard")]
         public string Register(Cards card)
         {
@@ -156,7 +156,7 @@ namespace ThanksCardServer.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("DeleteCard")]
         public string Delete(long CardID)
         {

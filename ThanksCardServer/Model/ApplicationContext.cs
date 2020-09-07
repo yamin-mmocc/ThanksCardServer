@@ -7,7 +7,7 @@ using ThanksCardServer.Model;
 
 namespace ThanksCardServer.Model
 {
-    public class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext //YME created
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options) { }
         

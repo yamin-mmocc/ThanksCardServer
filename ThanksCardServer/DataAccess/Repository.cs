@@ -9,14 +9,14 @@ using ThanksCardServer.Model;
 
 namespace ThanksCardServer.DataAccess
 {
-    public class Repository : IPostRepository
+    public class Repository : IPostRepository //YME created
     {
         ApplicationContext context;
         public Repository(ApplicationContext _context)
         {
             context = _context;
         }
-        public async Task<List<Departments>> GetDepartments()
+        public async Task<List<Departments>> GetDepartments() //YME add
         {
             if (context != null)
             {
@@ -35,7 +35,7 @@ namespace ThanksCardServer.DataAccess
             return null;
         }
 
-        public string CreateDepartments(Departments dept)
+        public string CreateDepartments(Departments dept) //YME add
         {
             string result;
 
@@ -59,7 +59,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
-        //public async Task<List<UserDepartmentRole>> GetUsers()
+        //public async Task<List<UserDepartmentRole>> GetUsers() //YME deleted
         //{
         //    if (context != null)
         //    {
@@ -87,7 +87,7 @@ namespace ThanksCardServer.DataAccess
         //    return null;
         //}
 
-        public async Task<List<UserDepartmentRole>> GetUsers(string name, string deptname)
+        public async Task<List<UserDepartmentRole>> GetUsers(string name, string deptname) //YME add
         {
             if (context != null)
             {
@@ -186,7 +186,7 @@ namespace ThanksCardServer.DataAccess
         }
 
         //yamin comment start
-        //public string CreateUsers(Users user)
+        //public string CreateUsers(Users user) //YME deleted
         //{
         //    string result;
 
@@ -205,7 +205,8 @@ namespace ThanksCardServer.DataAccess
         //}
         //yamin comment end
 
-        public string CreateUsers(Users user, string password)
+        //YME add
+        public string CreateUsers(Users user, string password) 
         {
             // validation
             string result;
@@ -256,6 +257,7 @@ namespace ThanksCardServer.DataAccess
             return null;
         }
 
+        //YME add
         public string CreateCards(Cards card)
         {
             string result;
@@ -280,6 +282,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public string CreateRoles(Roles role)
         {
             string result;
@@ -304,6 +307,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public async Task<List<Roles>> GetRoles()
         {
             if (context != null)
@@ -346,6 +350,7 @@ namespace ThanksCardServer.DataAccess
         //}
         //yamin comment end
 
+        //YME add
         public Users Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
@@ -365,6 +370,7 @@ namespace ThanksCardServer.DataAccess
             return user;
         }
 
+        //YME add
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -377,6 +383,7 @@ namespace ThanksCardServer.DataAccess
             }
         }
 
+        //YME add
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
@@ -396,6 +403,7 @@ namespace ThanksCardServer.DataAccess
             return true;
         }
 
+        //YME add
         public string DeleteDepartment(long? DeptID)
         {
             string result = "";
@@ -418,6 +426,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public string DeleteUser(long? User_ID)
         {
             string result = "";
@@ -441,6 +450,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public string DeleteCard(long? cardID)
         {
             string result = "";
@@ -464,6 +474,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public string DeleteRole(long? roleID)
         {
             string result = "";
@@ -487,6 +498,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public string ChangePassword(Users user, string currentPwd, string newPwd)
         {
             string result = "";
@@ -518,6 +530,7 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        //YME add
         public async Task<List<UserDepartmentRole>> getUserInfoByName(string username)
         {
             if (context != null)

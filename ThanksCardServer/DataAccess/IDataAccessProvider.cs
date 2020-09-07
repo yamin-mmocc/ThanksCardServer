@@ -6,7 +6,7 @@ using ThanksCardServer.Helper;
 using ThanksCardServer.Model;
 namespace ThanksCardServer.DataAccess
 {
-    public interface IDataAccessProvider
+    public interface IDataAccessProvider //YME created
     {
         IEnumerable<Departments> GetAll();
         Departments GetById(long id);

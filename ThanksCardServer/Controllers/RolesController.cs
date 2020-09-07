@@ -13,16 +13,16 @@ namespace ThanksCardServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RolesController : ControllerBase
+    public class RolesController : ControllerBase //ATK created
     {
-        //Roles add
+        //ATK add
         private readonly IPostRepository postRepository;
         public RolesController(IPostRepository _postRepository)
         {
             postRepository = _postRepository;
         }
 
-        [HttpGet]
+        [HttpGet] //ATK add
         [Route("GetRoles")]
         public async Task<IActionResult> GetRole()
         {
@@ -43,7 +43,7 @@ namespace ThanksCardServer.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost] //ATK add
         [Route("CreateRoles")]
         public string Register(Roles role)
         {
@@ -62,14 +62,14 @@ namespace ThanksCardServer.Controllers
             //added
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("DeleteRole")]
         public string Delete(long RoleID)
         {
             string result = "";
             try
             {
-                if (RoleID != null || RoleID != 0)
+                if (RoleID != 0)
                     // delete 
                     result = postRepository.DeleteRole(RoleID).ToString();
             }

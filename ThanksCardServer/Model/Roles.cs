@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class Roles
+    public class Roles //YME created
     {
         public string Role_Type { get; set; }
         public bool IsActive { get; set; }

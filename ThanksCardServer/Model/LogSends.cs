@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class LogSends
+    public class LogSends //YME created
     {
         public DateTime CreatedDateTime { get; set; }
 

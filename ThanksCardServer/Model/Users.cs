@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class Users
+    public class Users //YME created
     {
         public string User_Name { get; set; }
         public string Password { get; set; }

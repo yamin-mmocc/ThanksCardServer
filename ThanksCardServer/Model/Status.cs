@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class Status
+    public class Status  //YME created
     {
         public string Status_Name { get; set; }
 

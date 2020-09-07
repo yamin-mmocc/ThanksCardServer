@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class Cards
+    public class Cards //YME created
     {
         public string Card_Type { get; set; }
         public string Card_Style { get; set; }

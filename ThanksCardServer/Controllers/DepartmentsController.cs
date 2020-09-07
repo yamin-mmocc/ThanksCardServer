@@ -17,7 +17,7 @@ namespace ThanksCardServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DepartmentsController : ControllerBase
+    public class DepartmentsController : ControllerBase //YME created
     {
         //private readonly ApplicationContext _context;
         //public DepartmentsController(ApplicationContext context)
@@ -262,14 +262,14 @@ namespace ThanksCardServer.Controllers
         //}
         //real
 
-        //yamin test
+        //YME add
         private readonly IPostRepository postRepository;
         public DepartmentsController(IPostRepository _postRepository)
         {
             postRepository = _postRepository;
         }
 
-        [HttpGet]
+        [HttpGet] //YME add
         [Route("GetDepartments")]
         public async Task<IActionResult> GetDept()
         {
@@ -291,7 +291,7 @@ namespace ThanksCardServer.Controllers
         }
         //yamin test
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("CreateDept")]
         public string Register(Departments dept)
         {
@@ -310,7 +310,7 @@ namespace ThanksCardServer.Controllers
 
         }
 
-        [HttpPost]
+        [HttpPost] //YME add
         [Route("DeleteDept")]
         public string Delete(long DeptID)
         {

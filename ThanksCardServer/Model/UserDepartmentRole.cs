@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class UserDepartmentRole
+    public class UserDepartmentRole //YME created
     {
         public long? User_ID { get; set; }
         public string User_Name { get; set; }

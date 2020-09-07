@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ThanksCardServer.Model
 {
-    public class Departments
+    public class Departments //YME created
     {        
         public string Department_Name { get; set; }
         public bool IsActive { get; set; }
