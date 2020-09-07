@@ -537,21 +537,44 @@ namespace ThanksCardServer.DataAccess
             {
                 //return await context.Cards.ToListAsync();
 
-                return await(from u in context.Users
-                             join d in context.Departments
-                             on u.Department_ID equals d.Department_ID
-                             join r in context.Roles
-                             on u.Role_ID equals r.Role_ID
-                             where u.IsActive == true &&
-                                  u.User_Name == username
-                             select new UserDepartmentRole
-                             {
-                                 User_ID = u.User_ID,
-                                 Department_ID = u.Department_ID,
-                                 Department_Name = d.Department_Name,
-                                 Role_ID = u.Role_ID,
-                                 Role_Type = r.Role_Type
-                             }).ToListAsync();
+                return await (from u in context.Users
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              join r in context.Roles
+                              on u.Role_ID equals r.Role_ID
+                              where u.IsActive == true &&
+                                   u.User_Name == username
+                              select new UserDepartmentRole
+                              {
+                                  User_ID = u.User_ID,
+                                  User_Name = u.User_Name,
+                                  Department_ID = u.Department_ID,
+                                  Department_Name = d.Department_Name,
+                                  Role_ID = u.Role_ID,
+                                  Role_Type = r.Role_Type
+                              }).ToListAsync();
+            }
+
+            return null;
+        }
+
+        //YME add
+        public async Task<List<Users>> getUserByDept(string deptname)
+        {
+            if (context != null)
+            {
+                //return await context.Cards.ToListAsync();
+
+                return await (from u in context.Users
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where u.IsActive == true &&
+                              d.Department_Name == deptname
+                              select new Users
+                              {
+                                  User_ID = u.User_ID,
+                                  User_Name = u.User_Name
+                              }).ToListAsync();
             }
 
             return null;

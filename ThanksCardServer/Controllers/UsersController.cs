@@ -373,7 +373,26 @@ namespace ThanksCardServer.Controllers
             {
                 return BadRequest();
             }
+        }
 
+        [HttpPost] //YME add
+        [Route("GetUserByDept")]
+        public async Task<IActionResult> GetUserByDept(Departments dept)
+        {
+            try
+            {
+                var user = await postRepository.getUserByDept(dept.Department_Name);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
     }
 }
