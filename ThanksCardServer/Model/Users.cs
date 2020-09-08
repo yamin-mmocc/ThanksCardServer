@@ -16,6 +16,8 @@ namespace ThanksCardServer.Model
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
 
+        public string newPassword { get; set; }
+
         [Key]
         public long? User_ID { get; set; }
 

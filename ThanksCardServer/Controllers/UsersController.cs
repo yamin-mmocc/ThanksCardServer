@@ -339,14 +339,14 @@ namespace ThanksCardServer.Controllers
 
         [HttpPost] //YME add
         [Route("ChangePassword")]
-        public string PasswordChange(Users user,string currentPwd, string newPwd)
+        public string PasswordChange(Users user)
         {
             //IDictionary<string, string> response = new Dictionary<string, string>();
             string result;
             try
             {
                 // save 
-                result = postRepository.ChangePassword(user, currentPwd, newPwd).ToString();
+                result = postRepository.ChangePassword(user,user.Password,user.newPassword).ToString();
             }
             catch (Exception)
             {

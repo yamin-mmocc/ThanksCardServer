@@ -226,7 +226,7 @@ namespace ThanksCardServer.DataAccess
                 {
                     context.Users.Add(user);
                     context.SaveChanges();
-                    result = "Successfully Saved";
+                    result = "Success";
                 }
                 catch(Exception ex)
                 {
@@ -272,7 +272,7 @@ namespace ThanksCardServer.DataAccess
                 {
                     context.Cards.Add(card);
                     context.SaveChanges();
-                    result = "Successfully Saved";
+                    result = "Success";
                 }catch(Exception ex)
                 {
                     result = "Somethings Wrong";
