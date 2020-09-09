@@ -3,6 +3,7 @@ using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using ThanksCardServer.Helper;
 using ThanksCardServer.Model;
@@ -579,5 +580,52 @@ namespace ThanksCardServer.DataAccess
 
             return null;
         }
+
+        //ATK add
+        public  string getCardTotal()
+        {
+            if (context != null)
+            {
+                //return await context.Cards.ToListAsync();
+
+                //return await (from u in context.Users
+                //              join ls in context.LogSends
+                //              on u.User_ID equals ls.Receiver_ID
+                //              join d in context.Departments
+                //              on u.Department_ID equals d.Department_ID
+                //              where u.IsActive == true &&
+                //              ls.timeStamp == DateTime.Now
+                //              group ls by ls.Receiver_ID into newGroup
+                //              //orderby newGroup.Key
+                //              //  select newGroup;
+
+                //            select new UserLogSends
+                //              { 
+                //                  count = context.LogSends.Count(ls.Card_ID),
+
+                //                  User_ID = u.User_ID,
+                //                  User_Name = u.User_Name
+                //              }).ToListAsync();
+
+                var count = ((from u in context.Users
+                              join ls in context.LogSends
+                              on u.User_ID equals ls.Receiver_ID
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where u.IsActive == true &&
+                              ls.timeStamp == DateTime.Now
+                              group ls by ls.Receiver_ID into newGroup
+                              select new 
+                              {
+                                  User_ID = newGroup.Key,
+                                  //User_Name = newGroup
+                                  CardTotal = newGroup.Count()
+                              })).Count().ToString();
+                return count;
+            }
+
+            return null;
+        }
+
     }  
 }

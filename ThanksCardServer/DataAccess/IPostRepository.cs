@@ -30,5 +30,7 @@ namespace ThanksCardServer.DataAccess
         Users Authenticate(string username, string password); //YME add
 
         string ChangePassword(Users user,string currentPwd, string newPwd); //YME add
+
+        string getCardTotal();    //ATK added
     }
 }

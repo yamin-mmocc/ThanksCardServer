@@ -30,6 +30,7 @@ namespace ThanksCardServer.Model
         public virtual Users From { get; set; }
         public long? Receiver_ID { get; set; }
         public virtual Users To { get; set; }
+        public DateTime timeStamp { get; set; }
 
         public ICollection<LogReceives> LogReceives { get; set; }
     }
