@@ -10,6 +10,7 @@ namespace ThanksCardServer.Model
     public class LogSends //YME created
     {
         public DateTime CreatedDateTime { get; set; }
+        public string   MessageText { get; set; }
 
         [Key]
         public long? SendLog_ID { get; set; }      
