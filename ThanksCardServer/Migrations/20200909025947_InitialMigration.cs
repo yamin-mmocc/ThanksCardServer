@@ -92,6 +92,7 @@ namespace ThanksCardServer.Migrations
                     timeStamp = table.Column<DateTime>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
+                    newPassword = table.Column<string>(nullable: true),
                     Role_ID = table.Column<long>(nullable: true),
                     Department_ID = table.Column<long>(nullable: true)
                 },
@@ -119,6 +120,7 @@ namespace ThanksCardServer.Migrations
                     SendLog_ID = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    MessageText = table.Column<string>(nullable: true),
                     Card_ID = table.Column<long>(nullable: true),
                     Status_Code = table.Column<int>(nullable: true),
                     Message_ID = table.Column<long>(nullable: false),

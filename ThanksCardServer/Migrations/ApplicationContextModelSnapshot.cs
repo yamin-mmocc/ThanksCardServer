@@ -102,6 +102,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("FromUser_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("MessageText")
+                        .HasColumnType("text");
+
                     b.Property<long>("Message_ID")
                         .HasColumnType("bigint");
 
@@ -209,6 +212,9 @@ namespace ThanksCardServer.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("User_Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("newPassword")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("timeStamp")
