@@ -50,7 +50,8 @@ namespace ThanksCardServer.DataAccess
                     context.Departments.Add(dept);
                     context.SaveChanges();
                     result = "Successfully Saved";
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     result = "Somethings Wrong";
                 }
@@ -103,19 +104,19 @@ namespace ThanksCardServer.DataAccess
                                   u.User_Name.ToLower().Contains(name.ToLower()) &&
                                   d.Department_Name == deptname
                                   select new UserDepartmentRole
-                              {
-                                  User_ID = u.User_ID,
-                                  User_Name = u.User_Name,
-                                  Password = u.Password,
-                                  IsActive = u.IsActive,
-                                  timeStamp = u.timeStamp,
-                                  Department_ID = d.Department_ID,
-                                  Department_Name = d.Department_Name,
-                                  Role_ID = r.Role_ID,
-                                  Role_Type = r.Role_Type
-                              }).ToListAsync();
+                                  {
+                                      User_ID = u.User_ID,
+                                      User_Name = u.User_Name,
+                                      Password = u.Password,
+                                      IsActive = u.IsActive,
+                                      timeStamp = u.timeStamp,
+                                      Department_ID = d.Department_ID,
+                                      Department_Name = d.Department_Name,
+                                      Role_ID = r.Role_ID,
+                                      Role_Type = r.Role_Type
+                                  }).ToListAsync();
                 }
-                else if(name != "")
+                else if (name != "")
                 {
                     return await (from u in context.Users
                                   join d in context.Departments
@@ -123,7 +124,7 @@ namespace ThanksCardServer.DataAccess
                                   join r in context.Roles
                                   on u.Role_ID equals r.Role_ID
                                   where u.IsActive == true &&
-                                  u.User_Name.ToLower().Contains(name.ToLower())                                   
+                                  u.User_Name.ToLower().Contains(name.ToLower())
                                   select new UserDepartmentRole
                                   {
                                       User_ID = u.User_ID,
@@ -137,7 +138,7 @@ namespace ThanksCardServer.DataAccess
                                       Role_Type = r.Role_Type
                                   }).ToListAsync();
                 }
-                else if(deptname != "")
+                else if (deptname != "")
                 {
                     return await (from u in context.Users
                                   join d in context.Departments
@@ -166,7 +167,7 @@ namespace ThanksCardServer.DataAccess
                                   on u.Department_ID equals d.Department_ID
                                   join r in context.Roles
                                   on u.Role_ID equals r.Role_ID
-                                  where u.IsActive == true 
+                                  where u.IsActive == true
                                   select new UserDepartmentRole
                                   {
                                       User_ID = u.User_ID,
@@ -206,7 +207,7 @@ namespace ThanksCardServer.DataAccess
         //yamin comment end
 
         //YME add
-        public string CreateUsers(Users user, string password) 
+        public string CreateUsers(Users user, string password)
         {
             // validation
             string result;
@@ -228,7 +229,7 @@ namespace ThanksCardServer.DataAccess
                     context.SaveChanges();
                     result = "Successfully Saved";
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     result = "Somethings Wrong";
                 }
@@ -273,7 +274,8 @@ namespace ThanksCardServer.DataAccess
                     context.Cards.Add(card);
                     context.SaveChanges();
                     result = "Successfully Saved";
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     result = "Somethings Wrong";
                 }
@@ -298,7 +300,8 @@ namespace ThanksCardServer.DataAccess
                     context.Roles.Add(role);
                     context.SaveChanges();
                     result = "Successfully Saved";
-                }catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     result = "Somethings Wrong";
                 }
@@ -321,7 +324,7 @@ namespace ThanksCardServer.DataAccess
                                   Role_ID = role.Role_ID,
                                   Role_Type = role.Role_Type,
                                   IsActive = role.IsActive,
-                                  timeStamp = role.timeStamp                                  
+                                  timeStamp = role.timeStamp
                               }).ToListAsync();
             }
 
@@ -411,13 +414,14 @@ namespace ThanksCardServer.DataAccess
             if (context != null)
             {
                 try
-                {                   
+                {
                     Departments dept = context.Departments
                                        .First(i => i.Department_ID == DeptID);
                     dept.IsActive = false;
                     context.SaveChanges();
-                    result = "Successfully Deleted";                    
-                }catch(Exception ex)
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
                 {
                     result = "Something Wrong";
                 }
@@ -525,7 +529,7 @@ namespace ThanksCardServer.DataAccess
                     user.PasswordSalt = passwordSalt;
                     context.SaveChanges();
                     result = "Password Changed Successfully";
-                }                
+                }
             }
             return result;
         }
@@ -579,5 +583,31 @@ namespace ThanksCardServer.DataAccess
 
             return null;
         }
-    }  
+        //MSSM add start
+        public async Task<List<LogSendsUserDept>> getInboxData(long Receiver_ID)
+        {
+            if (context != null)
+            {
+                return await (from u in context.Users
+                              join ls in context.LogSends
+                              on u.User_ID equals ls.Receiver_ID
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where u.IsActive == true &&
+                              u.User_ID == ls.Receiver_ID
+                              select new LogSendsUserDept
+                              {
+                                  User_ID = u.User_ID,
+                                  User_Name = u.User_Name,
+                                  Department_ID = u.Department_ID,
+                                  Department_Name = d.Department_Name,
+                                  CreatedDateTime= ls.CreatedDateTime,
+                                  Sender_ID   = ls.Sender_ID,
+                                  Receiver_ID = ls .Receiver_ID
+                              }).ToListAsync();
+            }
+                return null;
+        }
+        //MSSM add end
+    }
 }
