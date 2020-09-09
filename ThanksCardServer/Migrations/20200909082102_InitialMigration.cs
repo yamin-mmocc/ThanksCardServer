@@ -92,7 +92,6 @@ namespace ThanksCardServer.Migrations
                     timeStamp = table.Column<DateTime>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
-                    newPassword = table.Column<string>(nullable: true),
                     Role_ID = table.Column<long>(nullable: true),
                     Department_ID = table.Column<long>(nullable: true)
                 },
@@ -114,6 +113,50 @@ namespace ThanksCardServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LogReceives",
+                columns: table => new
+                {
+                    ReceiveLog_ID = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    replyMsg = table.Column<string>(nullable: true),
+                    Status_Code = table.Column<int>(nullable: true),
+                    Card_ID = table.Column<long>(nullable: true),
+                    Sender_ID = table.Column<long>(nullable: true),
+                    FromUser_ID = table.Column<long>(nullable: true),
+                    Receiver_ID = table.Column<long>(nullable: true),
+                    ToUser_ID = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogReceives", x => x.ReceiveLog_ID);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Cards_Card_ID",
+                        column: x => x.Card_ID,
+                        principalTable: "Cards",
+                        principalColumn: "Card_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Users_FromUser_ID",
+                        column: x => x.FromUser_ID,
+                        principalTable: "Users",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Status_Status_Code",
+                        column: x => x.Status_Code,
+                        principalTable: "Status",
+                        principalColumn: "Status_Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Users_ToUser_ID",
+                        column: x => x.ToUser_ID,
+                        principalTable: "Users",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LogSends",
                 columns: table => new
                 {
@@ -121,9 +164,9 @@ namespace ThanksCardServer.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
                     MessageText = table.Column<string>(nullable: true),
+                    replyMsg = table.Column<string>(nullable: true),
                     Card_ID = table.Column<long>(nullable: true),
                     Status_Code = table.Column<int>(nullable: true),
-                    Message_ID = table.Column<long>(nullable: false),
                     Sender_ID = table.Column<long>(nullable: true),
                     FromUser_ID = table.Column<long>(nullable: true),
                     Receiver_ID = table.Column<long>(nullable: true),
@@ -145,12 +188,6 @@ namespace ThanksCardServer.Migrations
                         principalColumn: "User_ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_LogSends_Messages_Message_ID",
-                        column: x => x.Message_ID,
-                        principalTable: "Messages",
-                        principalColumn: "Message_ID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_LogSends_Status_Status_Code",
                         column: x => x.Status_Code,
                         principalTable: "Status",
@@ -164,41 +201,25 @@ namespace ThanksCardServer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "LogReceives",
-                columns: table => new
-                {
-                    ReceiveLog_ID = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Status_Code = table.Column<int>(nullable: true),
-                    SendLog_ID = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LogReceives", x => x.ReceiveLog_ID);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_LogSends_SendLog_ID",
-                        column: x => x.SendLog_ID,
-                        principalTable: "LogSends",
-                        principalColumn: "SendLog_ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_Status_Status_Code",
-                        column: x => x.Status_Code,
-                        principalTable: "Status",
-                        principalColumn: "Status_Code",
-                        onDelete: ReferentialAction.Restrict);
-                });
+            migrationBuilder.CreateIndex(
+                name: "IX_LogReceives_Card_ID",
+                table: "LogReceives",
+                column: "Card_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LogReceives_SendLog_ID",
+                name: "IX_LogReceives_FromUser_ID",
                 table: "LogReceives",
-                column: "SendLog_ID");
+                column: "FromUser_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogReceives_Status_Code",
                 table: "LogReceives",
                 column: "Status_Code");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LogReceives_ToUser_ID",
+                table: "LogReceives",
+                column: "ToUser_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogSends_Card_ID",
@@ -209,11 +230,6 @@ namespace ThanksCardServer.Migrations
                 name: "IX_LogSends_FromUser_ID",
                 table: "LogSends",
                 column: "FromUser_ID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LogSends_Message_ID",
-                table: "LogSends",
-                column: "Message_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogSends_Status_Code",
@@ -245,13 +261,13 @@ namespace ThanksCardServer.Migrations
                 name: "LogSends");
 
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Cards");
 
             migrationBuilder.DropTable(
                 name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "Status");

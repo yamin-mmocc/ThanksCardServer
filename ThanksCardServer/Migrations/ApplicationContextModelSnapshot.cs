@@ -71,17 +71,39 @@ namespace ThanksCardServer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-                    b.Property<long?>("SendLog_ID")
+                    b.Property<long?>("Card_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long?>("FromUser_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Receiver_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Sender_ID")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("Status_Code")
                         .HasColumnType("integer");
 
+                    b.Property<long?>("ToUser_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("replyMsg")
+                        .HasColumnType("text");
+
                     b.HasKey("ReceiveLog_ID");
 
-                    b.HasIndex("SendLog_ID");
+                    b.HasIndex("Card_ID");
+
+                    b.HasIndex("FromUser_ID");
 
                     b.HasIndex("Status_Code");
+
+                    b.HasIndex("ToUser_ID");
 
                     b.ToTable("LogReceives");
                 });
@@ -105,9 +127,6 @@ namespace ThanksCardServer.Migrations
                     b.Property<string>("MessageText")
                         .HasColumnType("text");
 
-                    b.Property<long>("Message_ID")
-                        .HasColumnType("bigint");
-
                     b.Property<long?>("Receiver_ID")
                         .HasColumnType("bigint");
 
@@ -120,13 +139,14 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("ToUser_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("replyMsg")
+                        .HasColumnType("text");
+
                     b.HasKey("SendLog_ID");
 
                     b.HasIndex("Card_ID");
 
                     b.HasIndex("FromUser_ID");
-
-                    b.HasIndex("Message_ID");
 
                     b.HasIndex("Status_Code");
 
@@ -214,9 +234,6 @@ namespace ThanksCardServer.Migrations
                     b.Property<string>("User_Name")
                         .HasColumnType("text");
 
-                    b.Property<string>("newPassword")
-                        .HasColumnType("text");
-
                     b.Property<DateTime>("timeStamp")
                         .HasColumnType("timestamp without time zone");
 
@@ -231,13 +248,21 @@ namespace ThanksCardServer.Migrations
 
             modelBuilder.Entity("ThanksCardServer.Model.LogReceives", b =>
                 {
-                    b.HasOne("ThanksCardServer.Model.LogSends", "LogSends")
-                        .WithMany("LogReceives")
-                        .HasForeignKey("SendLog_ID");
+                    b.HasOne("ThanksCardServer.Model.Cards", "Cards")
+                        .WithMany()
+                        .HasForeignKey("Card_ID");
+
+                    b.HasOne("ThanksCardServer.Model.Users", "From")
+                        .WithMany()
+                        .HasForeignKey("FromUser_ID");
 
                     b.HasOne("ThanksCardServer.Model.Status", "Status")
                         .WithMany("LogReceives")
                         .HasForeignKey("Status_Code");
+
+                    b.HasOne("ThanksCardServer.Model.Users", "To")
+                        .WithMany()
+                        .HasForeignKey("ToUser_ID");
                 });
 
             modelBuilder.Entity("ThanksCardServer.Model.LogSends", b =>
@@ -249,12 +274,6 @@ namespace ThanksCardServer.Migrations
                     b.HasOne("ThanksCardServer.Model.Users", "From")
                         .WithMany()
                         .HasForeignKey("FromUser_ID");
-
-                    b.HasOne("ThanksCardServer.Model.Messages", "Messages")
-                        .WithMany("LogSends")
-                        .HasForeignKey("Message_ID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("ThanksCardServer.Model.Status", "Status")
                         .WithMany("LogSends")

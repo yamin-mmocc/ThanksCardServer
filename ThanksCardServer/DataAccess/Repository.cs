@@ -499,33 +499,49 @@ namespace ThanksCardServer.DataAccess
         }
 
         //YME add
-        public string ChangePassword(Users user, string currentPwd, string newPwd)
+        public string ChangePassword(Users user, string newPwd)
         {
             string result = "";
-            if (string.IsNullOrWhiteSpace(currentPwd) || string.IsNullOrWhiteSpace(newPwd))
-                result = "Password is required";
-
-            var u = context.Users.SingleOrDefault(x => x.User_Name == user.User_Name);
-
+            //if (string.IsNullOrWhiteSpace(currentPwd) || string.IsNullOrWhiteSpace(newPwd))
+            //    result = "Password is required";
             // check if username exists
-            if (u == null)
+            if (!context.Users.Any(x => x.User_Name == user.User_Name))           
                 result = "User Name does not exit";
             else
             {
                 // check if password is correct
-                if (!VerifyPasswordHash(currentPwd, user.PasswordHash, user.PasswordSalt))
-                    result = "Current Password is Wrong";
-                else
-                {
-                    byte[] passwordHash, passwordSalt;
-                    CreatePasswordHash(newPwd, out passwordHash, out passwordSalt);
-                    Users users = context.Users
-                                       .First(i => i.User_Name == user.User_Name);
-                    user.PasswordHash = passwordHash;
-                    user.PasswordSalt = passwordSalt;
-                    context.SaveChanges();
-                    result = "Password Changed Successfully";
-                }                
+                //if (!context.Users.Any(x => x.Password == currentPwd))
+                //    result = "Current Password is Wrong";
+                //else
+                //{
+                    //byte[] passwordHash, passwordSalt;
+                    //CreatePasswordHash(newPwd, out passwordHash, out passwordSalt);
+                    //Users users = context.Users
+                    //                   .First(i => i.User_Name == user.User_Name);
+                    //user.Password = newPwd;
+                    //user.PasswordHash = passwordHash;
+                    //user.PasswordSalt = passwordSalt;
+                    //Users u = context.Users.Single(u => u.User_Name == user.User_Name);                    
+                    //u.Password = newPwd;
+                    //u.PasswordHash = passwordHash;
+                    //u.PasswordSalt = passwordSalt;
+                    // Query for a specific customer.
+                    try
+                    {
+                        var u =
+                            (from c in context.Users
+                             where c.User_Name == user.User_Name
+                             select c).First();
+                        // Change the name of the contact.
+                        u.Password = newPwd;
+                        context.SaveChanges();
+                        result = "Success";
+                    }
+                    catch(Exception ex)
+                    {
+                        result = "Error";
+                    }
+                //}                
             }
             return result;
         }
@@ -536,30 +552,60 @@ namespace ThanksCardServer.DataAccess
             if (context != null)
             {
                 //return await context.Cards.ToListAsync();
+                try
+                {
+                    return await (from u in context.Users
+                                  join d in context.Departments
+                                  on u.Department_ID equals d.Department_ID
+                                  join r in context.Roles
+                                  on u.Role_ID equals r.Role_ID
+                                  where u.IsActive == true &&
+                                  u.User_Name.ToLower()==username.ToLower()
+                                  select new UserDepartmentRole
+                                  {
+                                      User_ID = u.User_ID,
+                                      User_Name = u.User_Name,
+                                      Password = u.Password,
+                                      IsActive = u.IsActive,
+                                      timeStamp = u.timeStamp,
+                                      Department_ID = d.Department_ID,
+                                      Department_Name = d.Department_Name,
+                                      Role_ID = r.Role_ID,
+                                      Role_Type = r.Role_Type
+                                  }).ToListAsync();
+                }
+                catch(Exception ex)
+                {
 
-                return await (from u in context.Users
-                              join d in context.Departments
-                              on u.Department_ID equals d.Department_ID
-                              join r in context.Roles
-                              on u.Role_ID equals r.Role_ID
-                              where u.IsActive == true &&
-                                   u.User_Name == username
-                              select new UserDepartmentRole
-                              {
-                                  User_ID = u.User_ID,
-                                  User_Name = u.User_Name,
-                                  Department_ID = u.Department_ID,
-                                  Department_Name = d.Department_Name,
-                                  Role_ID = u.Role_ID,
-                                  Role_Type = r.Role_Type
-                              }).ToListAsync();
+                }
             }
 
             return null;
         }
 
         //YME add
-        public async Task<List<Users>> getUserByDept(string deptname)
+        //public async Task<List<Users>> getUserByDept(string deptname)
+        //{
+        //    if (context != null)
+        //    {
+        //        //return await context.Cards.ToListAsync();
+
+        //        return await (from u in context.Users
+        //                      join d in context.Departments
+        //                      on u.Department_ID equals d.Department_ID
+        //                      where u.IsActive == true &&
+        //                      d.Department_Name == deptname
+        //                      select new Users
+        //                      {
+        //                          User_ID = u.User_ID,
+        //                          User_Name = u.User_Name
+        //                      }).ToListAsync();
+        //    }
+
+        //    return null;
+        //}
+
+        public async Task<List<Users>> getUserByDept(long? deptid,string username)
         {
             if (context != null)
             {
@@ -569,7 +615,8 @@ namespace ThanksCardServer.DataAccess
                               join d in context.Departments
                               on u.Department_ID equals d.Department_ID
                               where u.IsActive == true &&
-                              d.Department_Name == deptname
+                              d.Department_ID == deptid &&
+                              !u.User_Name.ToLower().Contains(username.ToLower())
                               select new Users
                               {
                                   User_ID = u.User_ID,
@@ -578,6 +625,39 @@ namespace ThanksCardServer.DataAccess
             }
 
             return null;
+        }
+
+
+        public string SaveComposeToLogSends(LogSends ls)
+        {
+            string result = "";
+            try
+            {
+                context.LogSends.Add(ls);
+                context.SaveChanges();
+                result = "Success";
+            }
+            catch (Exception ex)
+            {
+                result = "Somethings Wrong";
+            }
+            return result;
+        }
+
+        public string SaveComposeToLogReceives(LogReceives lr)
+        {
+            string result = "";
+            try
+            {
+                context.LogReceives.Add(lr);
+                context.SaveChanges();
+                result = "Success";
+            }
+            catch (Exception ex)
+            {
+                result = "Somethings Wrong";
+            }
+            return result;
         }
     }  
 }

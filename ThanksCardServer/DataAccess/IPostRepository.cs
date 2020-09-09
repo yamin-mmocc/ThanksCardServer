@@ -17,7 +17,8 @@ namespace ThanksCardServer.DataAccess
         string CreateUsers(Users user, string password); //YME add
         string DeleteUser(long? User_ID); //YME add
         Task<List<UserDepartmentRole>> getUserInfoByName(string username); //YME add
-        Task<List<Users>> getUserByDept(string deptname); //YME add
+        //Task<List<Users>> getUserByDept(string deptname); //YME add
+        Task<List<Users>> getUserByDept(long? deptid,string username); //YME add
 
         Task<List<Cards>> GetCards(); //YME add
         string CreateCards(Cards card); //YME add
@@ -29,6 +30,10 @@ namespace ThanksCardServer.DataAccess
 
         Users Authenticate(string username, string password); //YME add
 
-        string ChangePassword(Users user,string currentPwd, string newPwd); //YME add
+        string ChangePassword(Users user, string newPwd); //YME add
+
+        string SaveComposeToLogSends(LogSends ls);
+
+        string SaveComposeToLogReceives(LogReceives lr);
     }
 }
