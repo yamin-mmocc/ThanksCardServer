@@ -127,7 +127,8 @@ namespace ThanksCardServer.Migrations
                     Sender_ID = table.Column<long>(nullable: true),
                     FromUser_ID = table.Column<long>(nullable: true),
                     Receiver_ID = table.Column<long>(nullable: true),
-                    ToUser_ID = table.Column<long>(nullable: true)
+                    ToUser_ID = table.Column<long>(nullable: true),
+                    timeStamp = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {

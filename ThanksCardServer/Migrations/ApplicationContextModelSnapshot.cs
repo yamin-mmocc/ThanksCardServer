@@ -120,6 +120,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("ToUser_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
+
                     b.HasKey("SendLog_ID");
 
                     b.HasIndex("Card_ID");

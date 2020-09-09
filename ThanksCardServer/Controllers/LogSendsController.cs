@@ -120,7 +120,7 @@ namespace ThanksCardServer.Controllers
         {
             try
             {
-                var card = await postRepository.getCardTotal();
+                var card = postRepository.getCardTotal();
                 if (card == null)
                 {
                     return NotFound();

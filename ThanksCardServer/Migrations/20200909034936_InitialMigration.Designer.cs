@@ -10,7 +10,7 @@ using ThanksCardServer.Model;
 namespace ThanksCardServer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200909025947_InitialMigration")]
+    [Migration("20200909034936_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,6 +121,9 @@ namespace ThanksCardServer.Migrations
 
                     b.Property<long?>("ToUser_ID")
                         .HasColumnType("bigint");
+
+                    b.Property<DateTime>("timeStamp")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("SendLog_ID");
 
