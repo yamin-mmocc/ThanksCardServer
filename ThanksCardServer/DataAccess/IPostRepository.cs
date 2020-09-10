@@ -31,6 +31,7 @@ namespace ThanksCardServer.DataAccess
 
         string ChangePassword(Users user,string currentPwd, string newPwd); //YME add
 
-        Task<List<LogSendsUserDept>> getInboxData(long Receiver_ID); //MSSM added
+        Task<List<LogSendsUserDept>> GetInboxData(long? Receiver_ID); //MSSM added
+        
     }
 }
