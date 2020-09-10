@@ -9,6 +9,9 @@ namespace ThanksCardServer.Model
 {
     public class LogReceives //YME created
     {
+        public DateTime CreatedDateTime { get; set; }
+        public string replyMsg { get; set; }
+
         [Key]
         public long? ReceiveLog_ID { get; set; }
 
@@ -16,8 +19,17 @@ namespace ThanksCardServer.Model
         [ForeignKey("Status_Code")]
         public virtual Status Status { get; set; }
 
-        public long? SendLog_ID { get; set; }
-        [ForeignKey("SendLog_ID")]
-        public virtual LogSends LogSends { get; set; }        
+        //public long? SendLog_ID { get; set; }
+        //[ForeignKey("SendLog_ID")]
+        //public virtual LogSends LogSends { get; set; }   
+
+        public long? Card_ID { get; set; }
+        [ForeignKey("Card_ID")]
+        public virtual Cards Cards { get; set; }
+
+        public long? Sender_ID { get; set; }
+        public virtual Users From { get; set; }
+        public long? Receiver_ID { get; set; }
+        public virtual Users To { get; set; }
     }
 }

@@ -342,11 +342,11 @@ namespace ThanksCardServer.Controllers
         public string PasswordChange(Users user)
         {
             //IDictionary<string, string> response = new Dictionary<string, string>();
-            string result;
+            string result ="";
             try
             {
                 // save 
-                result = postRepository.ChangePassword(user,user.Password,user.newPassword).ToString();
+                result = postRepository.ChangePassword(user,user.Password).ToString();
             }
             catch (Exception)
             {
@@ -375,13 +375,33 @@ namespace ThanksCardServer.Controllers
             }
         }
 
+        //[HttpPost] //YME add
+        //[Route("GetUserByDept")]
+        //public async Task<IActionResult> GetUserByDept(Departments dept)
+        //{
+        //    try
+        //    {
+        //        var user = await postRepository.getUserByDept(dept.Department_Name);
+        //        if (user == null)
+        //        {
+        //            return NotFound();
+        //        }
+
+        //        return Ok(user);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
+
         [HttpPost] //YME add
         [Route("GetUserByDept")]
-        public async Task<IActionResult> GetUserByDept(Departments dept)
+        public async Task<IActionResult> GetUserByDept(Users u)
         {
             try
             {
-                var user = await postRepository.getUserByDept(dept.Department_Name);
+                var user = await postRepository.getUserByDept(u.Department_ID,u.User_Name);
                 if (user == null)
                 {
                     return NotFound();

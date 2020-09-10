@@ -13,6 +13,6 @@ namespace ThanksCardServer.Model
         [Key]
         public long? Message_ID { get; set; }
         
-        public ICollection<LogSends> LogSends { get; set; }
+        //public ICollection<LogSends> LogSends { get; set; }
     }
 }
