@@ -23,21 +23,61 @@ namespace ThanksCardServer.Controllers
 
         [HttpPost] //YME add
         [Route("SaveSends")]
-        public string SaveData(LogSends ls)
+        public async Task<IActionResult> SaveData(LogSends ls)
         {
-            //IDictionary<string, string> response = new Dictionary<string, string>();
-            string result;
             try
             {
-                // save 
-                result = postRepository.SaveComposeToLogSends(ls).ToString();
+                var logsend = await postRepository.SaveComposeToLogSends(ls);
+                if (logsend == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(logsend);
             }
             catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
+
+        [HttpPost] //YME add
+        [Route("DeleteSends")]
+        public string DeleteSend(LogSends ls)
+        {
+            string result = "";
+            try
+            {
+                if (ls != null)
+                    // delete 
+                    result = postRepository.DeleteLogSend(ls).ToString();
+            }
+            catch (Exception ex)
             {
                 result = "Error";
             }
             return JsonConvert.SerializeObject(result);
+        }
 
+        [HttpPost] //YME add
+        [Route("GetSendData")]
+        public async Task<IActionResult> GetInboxData(SendModel send)
+        {
+            try
+            {
+                var s = await postRepository.GetSendData(send);
+                if (s == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(s);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
     }

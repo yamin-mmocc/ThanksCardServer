@@ -32,8 +32,13 @@ namespace ThanksCardServer.DataAccess
 
         string ChangePassword(Users user, string newPwd); //YME add
 
-        string SaveComposeToLogSends(LogSends ls);
+        Task<List<LogSends>> SaveComposeToLogSends(LogSends ls);
+        string DeleteLogSend(LogSends ls); //YME add
 
-        string SaveComposeToLogReceives(LogReceives lr);
+        Task<List<LogReceives>> SaveComposeToLogReceives(LogReceives lr);
+
+        Task<List<InboxModel>> GetInboxData(InboxModel inbox); //YME add
+
+        Task<List<SendModel>> GetSendData(SendModel send); //YME add
     }
 }

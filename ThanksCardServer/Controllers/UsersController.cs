@@ -305,7 +305,7 @@ namespace ThanksCardServer.Controllers
             var user = postRepository.Authenticate(userto.User_Name, userto.Password);
 
             if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                return BadRequest(new { message = "Denied" });
 
             
 
@@ -326,7 +326,7 @@ namespace ThanksCardServer.Controllers
             string result = "";
             try
             {
-                if (UserID != null || UserID != 0)
+                if ( UserID != 0)
                     // delete 
                     result = postRepository.DeleteUser(UserID).ToString();
             }

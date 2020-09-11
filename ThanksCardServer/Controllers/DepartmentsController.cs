@@ -317,7 +317,7 @@ namespace ThanksCardServer.Controllers
             string result="";
             try
             {
-                if(DeptID != null || DeptID != 0)
+                if(DeptID != 0)
                 // delete 
                 result = postRepository.DeleteDepartment(DeptID).ToString();
             }

@@ -80,6 +80,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("FromUser_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("MessageText")
+                        .HasColumnType("text");
+
                     b.Property<long?>("Receiver_ID")
                         .HasColumnType("bigint");
 

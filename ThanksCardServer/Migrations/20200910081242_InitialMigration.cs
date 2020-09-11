@@ -119,6 +119,7 @@ namespace ThanksCardServer.Migrations
                     ReceiveLog_ID = table.Column<long>(nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    MessageText = table.Column<string>(nullable: true),
                     replyMsg = table.Column<string>(nullable: true),
                     Status_Code = table.Column<int>(nullable: true),
                     Card_ID = table.Column<long>(nullable: true),

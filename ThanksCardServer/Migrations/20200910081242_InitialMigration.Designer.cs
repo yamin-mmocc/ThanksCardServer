@@ -10,7 +10,7 @@ using ThanksCardServer.Model;
 namespace ThanksCardServer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200909082102_InitialMigration")]
+    [Migration("20200910081242_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,6 +81,9 @@ namespace ThanksCardServer.Migrations
 
                     b.Property<long?>("FromUser_ID")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("MessageText")
+                        .HasColumnType("text");
 
                     b.Property<long?>("Receiver_ID")
                         .HasColumnType("bigint");

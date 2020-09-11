@@ -59,34 +59,6 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
-        //public async Task<List<UserDepartmentRole>> GetUsers() //YME deleted
-        //{
-        //    if (context != null)
-        //    {
-        //        //return await context.Departments.ToListAsync();
-        //        return await (from u in context.Users
-        //                      join d in context.Departments
-        //                      on u.Department_ID equals d.Department_ID
-        //                      join r in context.Roles
-        //                      on u.Role_ID equals r.Role_ID
-        //                      where u.IsActive == true                              
-        //                      select new UserDepartmentRole
-        //                      {
-        //                          User_ID = u.User_ID,
-        //                          User_Name = u.User_Name,
-        //                          Password = u.Password,
-        //                          IsActive = u.IsActive,
-        //                          timeStamp = u.timeStamp,
-        //                          Department_ID = d.Department_ID,                                 
-        //                          Department_Name = d.Department_Name,
-        //                          Role_ID= r.Role_ID,
-        //                          Role_Type = r.Role_Type
-        //                      }).ToListAsync();
-        //    }
-
-        //    return null;
-        //}
-
         public async Task<List<UserDepartmentRole>> GetUsers(string name, string deptname) //YME add
         {
             if (context != null)
@@ -328,28 +300,6 @@ namespace ThanksCardServer.DataAccess
             return null;
         }
 
-        //yamin comment start
-        //public Users Authenticate(string username, string password)
-        //{
-        //    if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-        //        return null;
-
-        //    var user = context.Users.SingleOrDefault(x => x.User_Name == username);
-
-        //    // check if username exists
-        //    if (user == null)
-        //        return null;
-
-        //    // check if password is correct
-        //    var pw = context.Users.SingleOrDefault(x => x.Password == password);
-        //    if (pw == null)
-        //        return null;
-
-        //    // authentication successful
-        //    return user;
-        //}
-        //yamin comment end
-
         //YME add
         public Users Authenticate(string username, string password)
         {
@@ -583,34 +533,11 @@ namespace ThanksCardServer.DataAccess
             return null;
         }
 
-        //YME add
-        //public async Task<List<Users>> getUserByDept(string deptname)
-        //{
-        //    if (context != null)
-        //    {
-        //        //return await context.Cards.ToListAsync();
-
-        //        return await (from u in context.Users
-        //                      join d in context.Departments
-        //                      on u.Department_ID equals d.Department_ID
-        //                      where u.IsActive == true &&
-        //                      d.Department_Name == deptname
-        //                      select new Users
-        //                      {
-        //                          User_ID = u.User_ID,
-        //                          User_Name = u.User_Name
-        //                      }).ToListAsync();
-        //    }
-
-        //    return null;
-        //}
-
+        //YME add        
         public async Task<List<Users>> getUserByDept(long? deptid,string username)
         {
             if (context != null)
             {
-                //return await context.Cards.ToListAsync();
-
                 return await (from u in context.Users
                               join d in context.Departments
                               on u.Department_ID equals d.Department_ID
@@ -628,36 +555,123 @@ namespace ThanksCardServer.DataAccess
         }
 
 
-        public string SaveComposeToLogSends(LogSends ls)
+        public async Task<List<LogSends>> SaveComposeToLogSends(LogSends ls)
         {
-            string result = "";
+            //var logsend;
             try
             {
                 context.LogSends.Add(ls);
                 context.SaveChanges();
-                result = "Success";
+                //result = "Success";
+                return await context.LogSends.ToListAsync();
             }
             catch (Exception ex)
             {
-                result = "Somethings Wrong";
+                return null;
             }
+        }
+
+
+        //YME add
+        public string DeleteLogSend(LogSends ls)
+        {
+            string result = "";
+
+            if (context != null)
+            {
+                try
+                {
+                    LogSends logsend = context.LogSends
+                                       .First(i => i.SendLog_ID == ls.SendLog_ID);                   
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+
             return result;
         }
 
-        public string SaveComposeToLogReceives(LogReceives lr)
+        public async Task<List<LogReceives>> SaveComposeToLogReceives(LogReceives lr)
         {
-            string result = "";
             try
             {
-                context.LogReceives.Add(lr);
-                context.SaveChanges();
-                result = "Success";
+                    context.LogReceives.Add(lr);
+                    context.SaveChanges();
+                    //result = "Success";
+                    return await context.LogReceives.ToListAsync();
+
             }
             catch (Exception ex)
             {
-                result = "Somethings Wrong";
-            }
-            return result;
+                return null;
+            }                        
         }
+
+        //Yamin Add
+        public async Task<List<InboxModel>> GetInboxData(InboxModel inbox)
+        {
+            if (context != null)
+            {
+                return await (from lr in context.LogReceives
+                              join u in context.Users
+                              on lr.Receiver_ID equals u.User_ID
+                              join c in context.Cards
+                              on lr.Card_ID equals c.Card_ID
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where lr.Status_Code == 2 &&
+                              lr.Sender_ID == inbox.User_ID
+                              select new InboxModel
+                              {
+                                  Receiver_ID = lr.Receiver_ID,
+                                  CreatedDateTime = lr.CreatedDateTime,
+                                  Card_ID = lr.Card_ID,
+                                  Card_Type = c.Card_Type,
+                                  Card_Style = c.Card_Style,
+                                  Department_Name = d.Department_Name,
+                                  User_Name = u.User_Name,
+                                  MessageText = lr.MessageText,
+                                  Status_Code = lr.Status_Code
+                              }).ToListAsync();
+
+            }
+
+            return null;
+        }
+
+        public async Task<List<SendModel>> GetSendData(SendModel send)
+        {
+            if (context != null)
+            {
+                return await (from ls in context.LogSends
+                              join u in context.Users
+                              on ls.Receiver_ID equals u.User_ID
+                              join c in context.Cards
+                              on ls.Card_ID equals c.Card_ID
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where ls.Status_Code == 1 &&
+                              ls.Sender_ID == send.User_ID
+                              select new SendModel
+                              {
+                                  Receiver_ID = ls.Receiver_ID,
+                                  CreatedDateTime = ls.CreatedDateTime,
+                                  Card_ID = ls.Card_ID,
+                                  Card_Type = c.Card_Type,
+                                  Card_Style = c.Card_Style,
+                                  Department_Name = d.Department_Name,
+                                  User_Name = u.User_Name,
+                                  Status_Code = ls.Status_Code,
+                                  MessageText = ls.MessageText,
+                                  replyMsg = ls.replyMsg
+                              }).ToListAsync();
+            }
+
+            return null;
+        }    
     }  
 }

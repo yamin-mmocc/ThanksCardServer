@@ -39,5 +39,27 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
 
         }
+
+
+        [HttpPost] //YME add
+        [Route("GetInboxData")]
+        public async Task<IActionResult> GetInboxData(InboxModel Inbox)
+        {
+            try
+            {
+                var ib = await postRepository.GetInboxData(Inbox);
+                if (ib == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(ib);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }
