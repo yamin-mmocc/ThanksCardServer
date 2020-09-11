@@ -659,5 +659,33 @@ namespace ThanksCardServer.DataAccess
             }
             return result;
         }
-    }  
+        //MSSM add start
+        public async Task<List<LogSendsUserDept>> GetInboxData(long? Receiver_ID)
+        {
+            if (context != null)
+            {
+                return await (from u in context.Users
+                              join ls in context.LogSends
+                              on u.User_ID equals ls.Receiver_ID
+                              join d in context.Departments
+                              on u.Department_ID equals d.Department_ID
+                              where u.IsActive == true &&
+                              u.User_ID == ls.Receiver_ID
+                              select new LogSendsUserDept
+                              {
+                                  User_ID = u.User_ID,
+                                  User_Name = u.User_Name,
+                                  Department_ID = u.Department_ID,
+                                  Department_Name = d.Department_Name,
+                                  CreatedDateTime = ls.CreatedDateTime,
+                                  Sender_ID = ls.Sender_ID,
+                                  Receiver_ID = ls.Receiver_ID
+                              }).ToListAsync();
+            }
+            return null;
+        }
+
+        
+        //MSSM add end
+    }
 }

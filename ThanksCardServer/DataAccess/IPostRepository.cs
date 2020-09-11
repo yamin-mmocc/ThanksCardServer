@@ -35,5 +35,8 @@ namespace ThanksCardServer.DataAccess
         string SaveComposeToLogSends(LogSends ls);
 
         string SaveComposeToLogReceives(LogReceives lr);
+
+        Task<List<LogSendsUserDept>> GetInboxData(long? Receiver_ID); //MSSM added
+        
     }
 }
