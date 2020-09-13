@@ -113,51 +113,6 @@ namespace ThanksCardServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LogReceives",
-                columns: table => new
-                {
-                    ReceiveLog_ID = table.Column<long>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreatedDateTime = table.Column<DateTime>(nullable: false),
-                    MessageText = table.Column<string>(nullable: true),
-                    replyMsg = table.Column<string>(nullable: true),
-                    Status_Code = table.Column<int>(nullable: true),
-                    Card_ID = table.Column<long>(nullable: true),
-                    Sender_ID = table.Column<long>(nullable: true),
-                    FromUser_ID = table.Column<long>(nullable: true),
-                    Receiver_ID = table.Column<long>(nullable: true),
-                    ToUser_ID = table.Column<long>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LogReceives", x => x.ReceiveLog_ID);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_Cards_Card_ID",
-                        column: x => x.Card_ID,
-                        principalTable: "Cards",
-                        principalColumn: "Card_ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_Users_FromUser_ID",
-                        column: x => x.FromUser_ID,
-                        principalTable: "Users",
-                        principalColumn: "User_ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_Status_Status_Code",
-                        column: x => x.Status_Code,
-                        principalTable: "Status",
-                        principalColumn: "Status_Code",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_LogReceives_Users_ToUser_ID",
-                        column: x => x.ToUser_ID,
-                        principalTable: "Users",
-                        principalColumn: "User_ID",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "LogSends",
                 columns: table => new
                 {
@@ -202,6 +157,58 @@ namespace ThanksCardServer.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "LogReceives",
+                columns: table => new
+                {
+                    ReceiveLog_ID = table.Column<long>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CreatedDateTime = table.Column<DateTime>(nullable: false),
+                    MessageText = table.Column<string>(nullable: true),
+                    replyMsg = table.Column<string>(nullable: true),
+                    Status_Code = table.Column<int>(nullable: true),
+                    Card_ID = table.Column<long>(nullable: true),
+                    Sender_ID = table.Column<long>(nullable: true),
+                    FromUser_ID = table.Column<long>(nullable: true),
+                    Receiver_ID = table.Column<long>(nullable: true),
+                    ToUser_ID = table.Column<long>(nullable: true),
+                    SendLog_ID = table.Column<long>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogReceives", x => x.ReceiveLog_ID);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Cards_Card_ID",
+                        column: x => x.Card_ID,
+                        principalTable: "Cards",
+                        principalColumn: "Card_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Users_FromUser_ID",
+                        column: x => x.FromUser_ID,
+                        principalTable: "Users",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_LogSends_SendLog_ID",
+                        column: x => x.SendLog_ID,
+                        principalTable: "LogSends",
+                        principalColumn: "SendLog_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Status_Status_Code",
+                        column: x => x.Status_Code,
+                        principalTable: "Status",
+                        principalColumn: "Status_Code",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogReceives_Users_ToUser_ID",
+                        column: x => x.ToUser_ID,
+                        principalTable: "Users",
+                        principalColumn: "User_ID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_LogReceives_Card_ID",
                 table: "LogReceives",
@@ -211,6 +218,11 @@ namespace ThanksCardServer.Migrations
                 name: "IX_LogReceives_FromUser_ID",
                 table: "LogReceives",
                 column: "FromUser_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LogReceives_SendLog_ID",
+                table: "LogReceives",
+                column: "SendLog_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogReceives_Status_Code",
@@ -259,10 +271,10 @@ namespace ThanksCardServer.Migrations
                 name: "LogReceives");
 
             migrationBuilder.DropTable(
-                name: "LogSends");
+                name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "Messages");
+                name: "LogSends");
 
             migrationBuilder.DropTable(
                 name: "Cards");

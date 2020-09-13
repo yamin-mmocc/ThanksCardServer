@@ -80,5 +80,24 @@ namespace ThanksCardServer.Controllers
             }
         }
 
+        [HttpPost] //YME add
+        [Route("SaveReplyMsgToLS")]
+        public string SaveReplyMsg(LogSends ls)
+        {
+            //IDictionary<string, string> response = new Dictionary<string, string>();
+            string result;
+            try
+            {
+                // save 
+                result = postRepository.SaveReplyMsgToLogSends(ls).ToString();
+            }
+            catch (Exception)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+
+        }
+
     }
 }

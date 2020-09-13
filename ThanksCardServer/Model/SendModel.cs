@@ -21,5 +21,6 @@ namespace ThanksCardServer.Model
         public string Department_Name { get; set; }
         public string Card_Type { get; set; }
         public string Card_Style { get; set; }
+        public long? SendLog_ID { get; set; }
     }
 }

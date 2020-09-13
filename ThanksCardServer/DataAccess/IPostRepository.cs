@@ -40,5 +40,9 @@ namespace ThanksCardServer.DataAccess
         Task<List<InboxModel>> GetInboxData(InboxModel inbox); //YME add
 
         Task<List<SendModel>> GetSendData(SendModel send); //YME add
+
+        string SaveReplyMsgToLogSends(LogSends ls); //YME add
+
+        string SaveReplyMsgToLogReceives(LogReceives lr); //YME add
     }
 }

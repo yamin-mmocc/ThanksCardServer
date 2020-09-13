@@ -86,6 +86,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<long?>("Receiver_ID")
                         .HasColumnType("bigint");
 
+                    b.Property<long?>("SendLog_ID")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("Sender_ID")
                         .HasColumnType("bigint");
 
@@ -103,6 +106,8 @@ namespace ThanksCardServer.Migrations
                     b.HasIndex("Card_ID");
 
                     b.HasIndex("FromUser_ID");
+
+                    b.HasIndex("SendLog_ID");
 
                     b.HasIndex("Status_Code");
 
@@ -258,6 +263,10 @@ namespace ThanksCardServer.Migrations
                     b.HasOne("ThanksCardServer.Model.Users", "From")
                         .WithMany()
                         .HasForeignKey("FromUser_ID");
+
+                    b.HasOne("ThanksCardServer.Model.LogSends", "LogSends")
+                        .WithMany("LogReceives")
+                        .HasForeignKey("SendLog_ID");
 
                     b.HasOne("ThanksCardServer.Model.Status", "Status")
                         .WithMany("LogReceives")

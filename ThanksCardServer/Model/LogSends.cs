@@ -33,6 +33,6 @@ namespace ThanksCardServer.Model
         public long? Receiver_ID { get; set; }
         public virtual Users To { get; set; }
 
-        //public ICollection<LogReceives> LogReceives { get; set; }
+        public ICollection<LogReceives> LogReceives { get; set; }
     }
 }

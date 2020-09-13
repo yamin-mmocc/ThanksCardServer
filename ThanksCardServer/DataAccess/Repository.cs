@@ -635,7 +635,9 @@ namespace ThanksCardServer.DataAccess
                                   Department_Name = d.Department_Name,
                                   User_Name = u.User_Name,
                                   MessageText = lr.MessageText,
-                                  Status_Code = lr.Status_Code
+                                  Status_Code = lr.Status_Code,
+                                  SendLog_ID = lr.SendLog_ID,
+                                  replyMsg = lr.replyMsg
                               }).ToListAsync();
 
             }
@@ -667,11 +669,56 @@ namespace ThanksCardServer.DataAccess
                                   User_Name = u.User_Name,
                                   Status_Code = ls.Status_Code,
                                   MessageText = ls.MessageText,
-                                  replyMsg = ls.replyMsg
+                                  replyMsg = ls.replyMsg,
+                                  SendLog_ID = ls.SendLog_ID
                               }).ToListAsync();
             }
 
             return null;
-        }    
+        }
+
+        //yamin add
+        public string SaveReplyMsgToLogSends(LogSends ls)
+        {
+            string result = "";
+            try
+            {
+                var logsend =
+                    (from logs in context.LogSends
+                     where logs.SendLog_ID == ls.SendLog_ID
+                     select logs).First();
+                // update the reply message.
+                logsend.replyMsg = ls.replyMsg;
+                context.SaveChanges();
+                result = "Success";
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return result;
+        }
+
+        //yamin add
+        public string SaveReplyMsgToLogReceives(LogReceives lr)
+        {
+            string result = "";
+            try
+            {
+                var logreceive =
+                    (from logrev in context.LogReceives
+                     where logrev.SendLog_ID == lr.SendLog_ID
+                     select logrev).First();
+                // Update the reply message.
+                logreceive.replyMsg = lr.replyMsg;
+                context.SaveChanges();
+                result = "Success";
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return result;
+        }
     }  
 }

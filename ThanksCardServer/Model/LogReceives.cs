@@ -28,5 +28,9 @@ namespace ThanksCardServer.Model
         public virtual Users From { get; set; }
         public long? Receiver_ID { get; set; }
         public virtual Users To { get; set; }
+
+        public long? SendLog_ID { get; set; }
+        [ForeignKey("SendLog_ID")]
+        public LogSends LogSends { get; set; }
     }
 }
