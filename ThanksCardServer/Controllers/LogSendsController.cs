@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -96,7 +97,24 @@ namespace ThanksCardServer.Controllers
                 result = "Error";
             }
             return JsonConvert.SerializeObject(result);
+        }
 
+        [HttpPost] //YME add
+        [Route("GetTotal")]
+        public string GetCardTotal(LogSendInfo lsinfo)
+        {
+            DataTable dtCard = new DataTable();
+            string JSONString = string.Empty;
+            try
+            {                
+                dtCard = postRepository.GetCardTotal(lsinfo.FromMonth,lsinfo.ToMonth,lsinfo.Year,lsinfo.Sender_DeptID);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }            
+            JSONString = JsonConvert.SerializeObject(dtCard);
+            return JSONString;
         }
 
     }

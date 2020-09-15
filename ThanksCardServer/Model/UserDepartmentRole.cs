@@ -16,5 +16,6 @@ namespace ThanksCardServer.Model
         public string Department_Name { get; set; }
         public long? Role_ID { get; set; }
         public string Role_Type { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

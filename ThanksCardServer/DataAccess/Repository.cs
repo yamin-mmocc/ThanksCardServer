@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using ServiceStack;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using ThanksCardServer.Helper;
@@ -510,7 +512,7 @@ namespace ThanksCardServer.DataAccess
                                   join r in context.Roles
                                   on u.Role_ID equals r.Role_ID
                                   where u.IsActive == true &&
-                                  u.User_Name.ToLower()==username.ToLower()
+                                  u.User_Name.ToLower() == username.ToLower()
                                   select new UserDepartmentRole
                                   {
                                       User_ID = u.User_ID,
@@ -521,7 +523,8 @@ namespace ThanksCardServer.DataAccess
                                       Department_ID = d.Department_ID,
                                       Department_Name = d.Department_Name,
                                       Role_ID = r.Role_ID,
-                                      Role_Type = r.Role_Type
+                                      Role_Type = r.Role_Type,
+                                      IsAdmin = u.IsAdmin
                                   }).ToListAsync();
                 }
                 catch(Exception ex)
@@ -719,6 +722,382 @@ namespace ThanksCardServer.DataAccess
                 result = "Error";
             }
             return result;
+        }
+
+        //yamin add
+        //public string GetCardTotal(LogSends logsend, string deptname)
+        //{
+        //    if(context != null)
+        //    {
+        //        var count = ((from u in context.Users
+        //                      join ls in context.LogSends
+        //                      on u.User_ID equals ls.Receiver_ID
+        //                      join d in context.Departments
+        //                      on u.Department_ID equals d.Department_ID
+        //                      where u.IsActive == true &&
+        //                      ls.CreatedDateTime.Month == DateTime.Now.Month
+        //                      group ls by ls.Receiver_ID into newGroup
+        //                      select new
+        //                      {
+        //                          User_ID = newGroup.Key,
+        //                          CardTotal = newGroup.Count()
+        //                      })).Count().ToString();
+        //        return count;
+        //    }
+        //    return null;
+        //}
+
+        public DataTable GetCardTotal(int Frommonth, int Tomonth, int year, long? deptid)
+        {
+            DataTable dt2 = new DataTable();
+            DataTable dt3 = new DataTable();
+            dt2.Columns.Add("SenderID", typeof(long));
+            dt2.Columns.Add("SenderName", typeof(string));
+            dt2.Columns.Add("SenderDeptName", typeof(string));
+            dt2.Columns.Add("ReceiverID", typeof(long));
+            dt2.Columns.Add("ReceiverName", typeof(string));
+            dt2.Columns.Add("ReceiverDeptName", typeof(string));
+            dt2.Columns.Add("TotalCount", typeof(int));
+
+            //dt3 column            
+            dt3.Columns.Add("SenderDeptName", typeof(string));            
+            dt3.Columns.Add("ReceiverDeptName", typeof(string));
+            dt3.Columns.Add("TotalCount", typeof(int));
+            var groupbyResult = new List<LogSendInfo>(); ;
+            if (context != null)
+            {
+                if (Frommonth != 0 && Tomonth != 0 && year != 0 && deptid != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.CreatedDateTime.Year == year &&
+                                      ls.Sender_DeptID == deptid &&
+                                      ls.CreatedDateTime.Month >= Frommonth &&
+                                      ls.CreatedDateTime.Month <= Tomonth
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if (Frommonth != 0 && Tomonth != 0 && deptid != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.Sender_DeptID == deptid &&
+                                      ls.CreatedDateTime.Month >= Frommonth &&
+                                      ls.CreatedDateTime.Month <= Tomonth
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if (year != 0 && deptid != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.Sender_DeptID == deptid &&
+                                      ls.CreatedDateTime.Year == year
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if(year != 0 && Frommonth != 0 && Tomonth != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.CreatedDateTime.Month <= Frommonth &&
+                                      ls.CreatedDateTime.Month >= Tomonth &&
+                                      ls.CreatedDateTime.Year == year
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if( Frommonth != 0 && Tomonth != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.CreatedDateTime.Month <= Frommonth &&
+                                      ls.CreatedDateTime.Month >= Tomonth 
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if( year != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.CreatedDateTime.Year == year
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else if (deptid != 0)
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.Sender_DeptID == deptid
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+                else
+                {
+                    groupbyResult = ((from u in context.Users
+                                      join ls in context.LogSends
+                                      on u.User_ID equals ls.Receiver_ID
+                                      join d in context.Departments
+                                      on u.Department_ID equals d.Department_ID
+                                      where u.IsActive == true &&
+                                      ls.CreatedDateTime.Month == DateTime.Now.Month
+                                      select new LogSendInfo
+                                      {
+                                          Receiver_ID = ls.Receiver_ID,
+                                          Sender_ID = ls.Sender_ID,
+                                          CreatedDateTime = ls.CreatedDateTime,
+                                          Sender_DeptID = ls.Sender_DeptID,
+                                          Sender_DeptName = "",
+                                          Receiver_DeptID = ls.Receiver_DeptID,
+                                          Receiver_DeptName = "",
+                                          Sender_Name = "",
+                                          Receiver_Name = "",
+                                          count = 0
+                                      })).ToList();
+                }
+            }
+            if (deptid == 0)
+            {
+                foreach (var item in groupbyResult)
+                {
+                    var rCount = (from p in context.LogSends
+                                  where p.Receiver_ID == item.Receiver_ID
+                                  group p by
+                                  new
+                                  {
+                                      d_Id = p.Receiver_ID
+                                  } into s
+                                  select new
+                                  {
+                                      dIDs = s.Key.d_Id,
+                                      cnt = s.Count()
+                                  }).FirstOrDefault();
+                    var sendername = (from c in context.LogSends
+                                      join u in context.Users
+                                      on c.Sender_ID equals u.User_ID
+                                      where c.Sender_ID == item.Sender_ID
+                                      select
+                                         u.User_Name
+                                     ).FirstOrDefault();
+                    var receivername = (from c in context.LogSends
+                                        join u in context.Users
+                                        on c.Receiver_ID equals u.User_ID
+                                        where c.Receiver_ID == item.Receiver_ID
+                                        select
+                                            u.User_Name
+                                      ).FirstOrDefault();
+                    var senderdept = (from c in context.LogSends
+                                      join d in context.Departments
+                                      on c.Sender_DeptID equals d.Department_ID
+                                      where c.Sender_DeptID == item.Sender_DeptID
+                                      select
+                                          d.Department_Name
+                                      ).FirstOrDefault();
+                    var receiverdept = (from c in context.LogSends
+                                        join d in context.Departments
+                                        on c.Receiver_DeptID equals d.Department_ID
+                                        where c.Receiver_DeptID == item.Receiver_DeptID
+                                        select
+                                            d.Department_Name
+                                      ).FirstOrDefault();
+                    item.count = rCount == null ? 0 : rCount.cnt;
+                    DataRow row = dt2.NewRow();
+                    row["SenderID"] = item.Sender_ID;
+                    row["SenderName"] = sendername;
+                    row["SenderDeptName"] = senderdept;
+                    row["ReceiverID"] = item.Receiver_ID;
+                    row["ReceiverName"] = receivername;
+                    row["ReceiverDeptName"] = receiverdept;
+                    row["TotalCount"] = item.count;
+
+                    bool isDistinct = true;
+                    for (int i = 0; i < dt2.Rows.Count; i++)
+                    {
+                        // check if both rows are equal
+                        if (Enumerable.SequenceEqual(dt2.Rows[i].ItemArray, row.ItemArray))
+                        {
+                            // it already exists
+                            isDistinct = false;
+                            break;
+                        }
+                    }
+
+                    if (isDistinct)
+                    {
+                        dt2.Rows.Add(row);
+                    }                    
+                }
+                if (dt2.Rows.Count != 0)
+                {
+                    return dt2;
+                }
+                else
+                    return null;
+            }
+            else
+            {
+                foreach (var item in groupbyResult)
+                {
+                    var rCount = (from p in context.LogSends
+                                  where p.Sender_DeptID == item.Sender_DeptID
+                                  group p by
+                                  new
+                                  {
+                                      d_Id = p.Sender_DeptID
+                                  } into s
+                                  select new
+                                  {
+                                      dIDs = s.Key.d_Id,
+                                      cnt = s.Count()
+                                  }).FirstOrDefault();
+                    var senderdept = (from c in context.LogSends
+                                      join d in context.Departments
+                                      on c.Sender_DeptID equals d.Department_ID
+                                      where c.Sender_DeptID == item.Sender_DeptID
+                                      select
+                                          d.Department_Name
+                                      ).FirstOrDefault();
+                    var receiverdept = (from c in context.LogSends
+                                        join d in context.Departments
+                                        on c.Receiver_DeptID equals d.Department_ID
+                                        where c.Receiver_DeptID == item.Receiver_DeptID
+                                        select
+                                            d.Department_Name
+                                      ).FirstOrDefault();
+                    item.count = rCount == null ? 0 : rCount.cnt;
+                    DataRow row = dt3.NewRow();                    
+                    row["SenderDeptName"] = senderdept;                                  
+                    row["ReceiverDeptName"] = receiverdept;
+                    row["TotalCount"] = item.count;
+
+                    bool isDistinct = true;
+                    for (int i = 0; i < dt3.Rows.Count; i++)
+                    {
+                        // check if both rows are equal
+                        if (Enumerable.SequenceEqual(dt3.Rows[i].ItemArray, row.ItemArray))
+                        {
+                            // it already exists
+                            isDistinct = false;
+                            break;
+                        }
+                    }
+
+                    if (isDistinct)
+                    {
+                        dt3.Rows.Add(row);
+                    }
+                }
+                if (dt3.Rows.Count != 0)
+                {
+                    return dt3;
+                }
+                else
+                    return null;
+            }            
         }
     }  
 }

@@ -10,7 +10,7 @@ using ThanksCardServer.Model;
 namespace ThanksCardServer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200911092325_InitialMigration")]
+    [Migration("20200915020023_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,13 +131,25 @@ namespace ThanksCardServer.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<long?>("DeptFromDepartment_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("DeptToDepartment_ID")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("FromUser_ID")
                         .HasColumnType("bigint");
 
                     b.Property<string>("MessageText")
                         .HasColumnType("text");
 
+                    b.Property<long?>("Receiver_DeptID")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("Receiver_ID")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("Sender_DeptID")
                         .HasColumnType("bigint");
 
                     b.Property<long?>("Sender_ID")
@@ -155,6 +167,10 @@ namespace ThanksCardServer.Migrations
                     b.HasKey("SendLog_ID");
 
                     b.HasIndex("Card_ID");
+
+                    b.HasIndex("DeptFromDepartment_ID");
+
+                    b.HasIndex("DeptToDepartment_ID");
 
                     b.HasIndex("FromUser_ID");
 
@@ -229,6 +245,9 @@ namespace ThanksCardServer.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
@@ -284,6 +303,14 @@ namespace ThanksCardServer.Migrations
                     b.HasOne("ThanksCardServer.Model.Cards", "Cards")
                         .WithMany("LogSends")
                         .HasForeignKey("Card_ID");
+
+                    b.HasOne("ThanksCardServer.Model.Departments", "DeptFrom")
+                        .WithMany()
+                        .HasForeignKey("DeptFromDepartment_ID");
+
+                    b.HasOne("ThanksCardServer.Model.Departments", "DeptTo")
+                        .WithMany()
+                        .HasForeignKey("DeptToDepartment_ID");
 
                     b.HasOne("ThanksCardServer.Model.Users", "From")
                         .WithMany()

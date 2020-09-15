@@ -15,8 +15,7 @@ namespace ThanksCardServer.Model
         public DateTime timeStamp { get; set; }
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
-
-        //public string newPassword { get; set; }
+        public bool IsAdmin { get; set; }
 
         [Key]
         public long? User_ID { get; set; }

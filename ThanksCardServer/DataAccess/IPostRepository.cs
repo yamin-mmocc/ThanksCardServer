@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using ThanksCardServer.Model;
@@ -44,5 +45,9 @@ namespace ThanksCardServer.DataAccess
         string SaveReplyMsgToLogSends(LogSends ls); //YME add
 
         string SaveReplyMsgToLogReceives(LogReceives lr); //YME add
+
+        //string GetCardTotal(LogSends logsend, string deptname);
+
+        DataTable GetCardTotal(int Frommonth, int Tomonth, int year, long? deptid); //YME add
     }
 }

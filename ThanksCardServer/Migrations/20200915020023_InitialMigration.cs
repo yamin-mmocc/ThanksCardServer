@@ -92,6 +92,7 @@ namespace ThanksCardServer.Migrations
                     timeStamp = table.Column<DateTime>(nullable: false),
                     PasswordHash = table.Column<byte[]>(nullable: true),
                     PasswordSalt = table.Column<byte[]>(nullable: true),
+                    IsAdmin = table.Column<bool>(nullable: false),
                     Role_ID = table.Column<long>(nullable: true),
                     Department_ID = table.Column<long>(nullable: true)
                 },
@@ -126,7 +127,11 @@ namespace ThanksCardServer.Migrations
                     Sender_ID = table.Column<long>(nullable: true),
                     FromUser_ID = table.Column<long>(nullable: true),
                     Receiver_ID = table.Column<long>(nullable: true),
-                    ToUser_ID = table.Column<long>(nullable: true)
+                    ToUser_ID = table.Column<long>(nullable: true),
+                    Sender_DeptID = table.Column<long>(nullable: true),
+                    DeptFromDepartment_ID = table.Column<long>(nullable: true),
+                    Receiver_DeptID = table.Column<long>(nullable: true),
+                    DeptToDepartment_ID = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,6 +141,18 @@ namespace ThanksCardServer.Migrations
                         column: x => x.Card_ID,
                         principalTable: "Cards",
                         principalColumn: "Card_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogSends_Departments_DeptFromDepartment_ID",
+                        column: x => x.DeptFromDepartment_ID,
+                        principalTable: "Departments",
+                        principalColumn: "Department_ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_LogSends_Departments_DeptToDepartment_ID",
+                        column: x => x.DeptToDepartment_ID,
+                        principalTable: "Departments",
+                        principalColumn: "Department_ID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LogSends_Users_FromUser_ID",
@@ -238,6 +255,16 @@ namespace ThanksCardServer.Migrations
                 name: "IX_LogSends_Card_ID",
                 table: "LogSends",
                 column: "Card_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LogSends_DeptFromDepartment_ID",
+                table: "LogSends",
+                column: "DeptFromDepartment_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LogSends_DeptToDepartment_ID",
+                table: "LogSends",
+                column: "DeptToDepartment_ID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogSends_FromUser_ID",
