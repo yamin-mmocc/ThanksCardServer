@@ -117,5 +117,23 @@ namespace ThanksCardServer.Controllers
             return JSONString;
         }
 
+        [HttpPost] //YME add
+        [Route("DeleteReplyMsgFromLS")]
+        public string DeleteReplyMsgFromSend(LogSends ls)
+        {
+            string result = "";
+            try
+            {
+                if (ls != null)
+                    // delete 
+                    result = postRepository.DeleteReplyMsgFromLogSend(ls).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
+
     }
 }

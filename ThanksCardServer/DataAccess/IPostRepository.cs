@@ -43,6 +43,7 @@ namespace ThanksCardServer.DataAccess
         Task<List<SendModel>> GetSendData(SendModel send); //YME add
 
         string SaveReplyMsgToLogSends(LogSends ls); //YME add
+        string DeleteReplyMsgFromLogSend(LogSends ls); //YME add
 
         string SaveReplyMsgToLogReceives(LogReceives lr); //YME add
 

@@ -86,7 +86,8 @@ namespace ThanksCardServer.DataAccess
                                   Department_ID = d.Department_ID,
                                   Department_Name = d.Department_Name,
                                   Role_ID = r.Role_ID,
-                                  Role_Type = r.Role_Type
+                                  Role_Type = r.Role_Type,
+                                  IsAdmin = u.IsAdmin
                               }).ToListAsync();
                 }
                 else if(name != "")
@@ -108,7 +109,8 @@ namespace ThanksCardServer.DataAccess
                                       Department_ID = d.Department_ID,
                                       Department_Name = d.Department_Name,
                                       Role_ID = r.Role_ID,
-                                      Role_Type = r.Role_Type
+                                      Role_Type = r.Role_Type,
+                                      IsAdmin = u.IsAdmin
                                   }).ToListAsync();
                 }
                 else if(deptname != "")
@@ -130,7 +132,8 @@ namespace ThanksCardServer.DataAccess
                                       Department_ID = d.Department_ID,
                                       Department_Name = d.Department_Name,
                                       Role_ID = r.Role_ID,
-                                      Role_Type = r.Role_Type
+                                      Role_Type = r.Role_Type,
+                                      IsAdmin = u.IsAdmin
                                   }).ToListAsync();
                 }
                 else
@@ -151,7 +154,8 @@ namespace ThanksCardServer.DataAccess
                                       Department_ID = d.Department_ID,
                                       Department_Name = d.Department_Name,
                                       Role_ID = r.Role_ID,
-                                      Role_Type = r.Role_Type
+                                      Role_Type = r.Role_Type,
+                                      IsAdmin = u.IsAdmin
                                   }).ToListAsync();
                 }
             }
@@ -484,9 +488,13 @@ namespace ThanksCardServer.DataAccess
                             (from c in context.Users
                              where c.User_Name == user.User_Name
                              select c).First();
-                        // Change the name of the contact.
-                        u.Password = newPwd;
-                        context.SaveChanges();
+                    // Change the name of the contact.
+                    byte[] passwordHash, passwordSalt;
+                    CreatePasswordHash(newPwd, out passwordHash, out passwordSalt);
+                    u.Password = newPwd;
+                    u.PasswordHash = passwordHash;
+                    u.PasswordSalt = passwordSalt;
+                    context.SaveChanges();
                         result = "Success";
                     }
                     catch(Exception ex)
@@ -971,6 +979,7 @@ namespace ThanksCardServer.DataAccess
                                   {
                                       d_Id = p.Receiver_ID
                                   } into s
+                                  orderby s.Count() descending
                                   select new
                                   {
                                       dIDs = s.Key.d_Id,
@@ -1049,6 +1058,7 @@ namespace ThanksCardServer.DataAccess
                                   {
                                       d_Id = p.Sender_DeptID
                                   } into s
+                                  orderby s.Count() descending
                                   select new
                                   {
                                       dIDs = s.Key.d_Id,
@@ -1098,6 +1108,28 @@ namespace ThanksCardServer.DataAccess
                 else
                     return null;
             }            
+        }
+
+        //yamin add
+        public string DeleteReplyMsgFromLogSend(LogSends ls)
+        {
+            string result = "";
+            try
+            {
+                var logsend =
+                    (from logs in context.LogSends
+                     where logs.SendLog_ID == ls.SendLog_ID
+                     select logs).First();
+                // update the reply message.
+                logsend.replyMsg = ls.replyMsg;
+                context.SaveChanges();
+                result = "Success";
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return result;
         }
     }  
 }
