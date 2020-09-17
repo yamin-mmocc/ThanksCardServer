@@ -135,5 +135,23 @@ namespace ThanksCardServer.Controllers
             return JsonConvert.SerializeObject(result);
         }
 
+        [HttpPost] //YME add
+        [Route("GetTotalDetail")]
+        public string GetDetail(LogSendInfo lsinfo)
+        {
+            DataTable dtCard = new DataTable();
+            string JSONString = string.Empty;
+            try
+            {
+                dtCard = postRepository.GetDetailData( lsinfo.Receiver_ID);
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            JSONString = JsonConvert.SerializeObject(dtCard);
+            return JSONString;
+        }
+
     }
 }
