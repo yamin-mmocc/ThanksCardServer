@@ -50,5 +50,7 @@ namespace ThanksCardServer.DataAccess
         //string GetCardTotal(LogSends logsend, string deptname);
 
         DataTable GetCardTotal(int Frommonth, int Tomonth, int year, long? deptid); //YME add
+
+        DataTable GetDetailData(long? Rec_ID);
     }
 }
