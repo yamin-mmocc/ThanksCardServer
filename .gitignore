@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/ThanksCardServer/Migrations/20200916081158_InitialMigration.cs
+/ThanksCardServer/Migrations/20200916081158_InitialMigration.Designer.cs
