@@ -21,7 +21,6 @@ namespace ThanksCardServer.Controllers
         {
             postRepository = _postRepository;
         }
-
         [HttpPost] //YME add
         [Route("SaveSends")]
         public async Task<IActionResult> SaveData(LogSends ls)
@@ -33,16 +32,13 @@ namespace ThanksCardServer.Controllers
                 {
                     return NotFound();
                 }
-
                 return Ok(logsend);
             }
             catch (Exception)
             {
                 return BadRequest();
             }
-
         }
-
         [HttpPost] //YME add
         [Route("DeleteSends")]
         public string DeleteSend(LogSends ls)
@@ -60,7 +56,6 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
-
         [HttpPost] //YME add
         [Route("GetSendData")]
         public async Task<IActionResult> GetInboxData(SendModel send)
@@ -72,7 +67,6 @@ namespace ThanksCardServer.Controllers
                 {
                     return NotFound();
                 }
-
                 return Ok(s);
             }
             catch (Exception)
@@ -80,12 +74,10 @@ namespace ThanksCardServer.Controllers
                 return BadRequest();
             }
         }
-
         [HttpPost] //YME add
         [Route("SaveReplyMsgToLS")]
         public string SaveReplyMsg(LogSends ls)
         {
-            //IDictionary<string, string> response = new Dictionary<string, string>();
             string result;
             try
             {
@@ -98,7 +90,6 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
-
         [HttpPost] //YME add
         [Route("GetTotal")]
         public string GetCardTotal(LogSendInfo lsinfo)
@@ -116,7 +107,6 @@ namespace ThanksCardServer.Controllers
             JSONString = JsonConvert.SerializeObject(dtCard);
             return JSONString;
         }
-
         [HttpPost] //YME add
         [Route("DeleteReplyMsgFromLS")]
         public string DeleteReplyMsgFromSend(LogSends ls)
@@ -134,7 +124,6 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
-
         [HttpPost] //YME add
         [Route("GetTotalDetail")]
         public string GetDetail(LogSendInfo lsinfo)
@@ -152,6 +141,5 @@ namespace ThanksCardServer.Controllers
             JSONString = JsonConvert.SerializeObject(dtCard);
             return JSONString;
         }
-
     }
 }

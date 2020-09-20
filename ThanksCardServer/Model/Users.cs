@@ -16,14 +16,11 @@ namespace ThanksCardServer.Model
         public byte[] PasswordHash { get; set; }
         public byte[] PasswordSalt { get; set; }
         public bool IsAdmin { get; set; }
-
         [Key]
         public long? User_ID { get; set; }
-
         public long? Role_ID { get; set; }
         [ForeignKey("Role_ID")]
         public virtual Roles Roles { get; set; }
-
         public long? Department_ID { get; set; }
         [ForeignKey("Department_ID")]
         public Departments Departments { get; set; }

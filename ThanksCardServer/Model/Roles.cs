@@ -11,10 +11,8 @@ namespace ThanksCardServer.Model
         public string Role_Type { get; set; }
         public bool IsActive { get; set; }
         public DateTime timeStamp { get; set; }
-
         [Key]
-        public long? Role_ID { get; set; }        
-
+        public long? Role_ID { get; set; }
         public ICollection<Users> Users { get; set; }
     }
 }

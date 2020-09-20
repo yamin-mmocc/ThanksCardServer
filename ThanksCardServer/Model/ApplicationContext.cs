@@ -19,16 +19,5 @@ namespace ThanksCardServer.Model
         public DbSet<Messages> Messages { get; set; }
         public DbSet<Status> Status { get; set; }
         public DbSet<ThanksCardServer.Model.Cards> Cards { get; set; }
-
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    base.OnModelCreating(builder);
-        //}
-
-        //public override int SaveChanges()
-        //{
-        //    ChangeTracker.DetectChanges();
-        //    return base.SaveChanges();
-        //}
     }
 }

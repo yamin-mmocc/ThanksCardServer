@@ -33,10 +33,8 @@ namespace ThanksCardServer.DataAccess
                                   timeStamp = dept.timeStamp
                               }).ToListAsync();
             }
-
             return null;
         }
-
         public string CreateDepartments(Departments dept) //YME add
         {
             string result;
@@ -44,7 +42,6 @@ namespace ThanksCardServer.DataAccess
             // department check if the new department name is already taken
             if (context.Departments.Any(x => x.Department_Name == dept.Department_Name))
                 result = "Department Name : " + dept.Department_Name + " is already exit.";
-
             else
             {
                 try
@@ -57,15 +54,12 @@ namespace ThanksCardServer.DataAccess
                     result = "Somethings Wrong";
                 }
             }
-
             return result;
         }
-
         public async Task<List<UserDepartmentRole>> GetUsers(string name, string deptname) //YME add
         {
             if (context != null)
             {
-                //return await context.Departments.ToListAsync();
                 if (name != "" && deptname != "")
                 {
                     return await (from u in context.Users
@@ -162,27 +156,6 @@ namespace ThanksCardServer.DataAccess
 
             return null;
         }
-
-        //yamin comment start
-        //public string CreateUsers(Users user) //YME deleted
-        //{
-        //    string result;
-
-        //    // department check if the new department name is already taken
-        //    if (context.Users.Any(x => x.User_Name == user.User_Name))
-        //        result = "User Name : " + user.User_Name + " is already taken";
-
-        //    else
-        //    {
-        //        context.Users.Add(user);
-        //        context.SaveChanges();
-        //        result = "Success";
-        //    }
-
-        //    return result;
-        //}
-        //yamin comment end
-
         //YME add
         public string CreateUsers(Users user, string password) 
         {
@@ -213,7 +186,6 @@ namespace ThanksCardServer.DataAccess
             }
             return result;
         }
-
         public async Task<List<Cards>> GetCards()
         {
             if (context != null)
@@ -231,19 +203,15 @@ namespace ThanksCardServer.DataAccess
                                   timeStamp = card.timeStamp
                               }).ToListAsync();
             }
-
             return null;
         }
-
         //YME add
         public string CreateCards(Cards card)
         {
             string result;
-
             // department check if the new department name is already taken
             if (context.Cards.Any(x => x.Card_Type == card.Card_Type))
                 result = "Card Type : " + card.Card_Type + " is already exit.";
-
             else
             {
                 try
@@ -256,19 +224,14 @@ namespace ThanksCardServer.DataAccess
                     result = "Somethings Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public string CreateRoles(Roles role)
         {
             string result;
-
-            // department check if the new department name is already taken
             if (context.Roles.Any(x => x.Role_Type == role.Role_Type))
                 result = "Role Type : " + role.Role_Type + " is already exit.";
-
             else
             {
                 try
@@ -281,17 +244,13 @@ namespace ThanksCardServer.DataAccess
                     result = "Somethings Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public async Task<List<Roles>> GetRoles()
         {
             if (context != null)
             {
-                //return await context.Roles.ToListAsync();
-
                 return await (from role in context.Roles
                               where role.IsActive == true
                               select new Roles
@@ -302,43 +261,34 @@ namespace ThanksCardServer.DataAccess
                                   timeStamp = role.timeStamp                                  
                               }).ToListAsync();
             }
-
             return null;
         }
-
         //YME add
         public Users Authenticate(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
-
             var user = context.Users.SingleOrDefault(x => x.User_Name == username);
-
             // check if username exists
             if (user == null)
                 return null;
-
             // check if password is correct
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
-
             // authentication successful
             return user;
         }
-
         //YME add
         private static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             if (password == null) throw new ArgumentNullException("password");
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
-
             using (var hmac = new System.Security.Cryptography.HMACSHA512())
             {
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
-
         //YME add
         private static bool VerifyPasswordHash(string password, byte[] storedHash, byte[] storedSalt)
         {
@@ -346,7 +296,6 @@ namespace ThanksCardServer.DataAccess
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentException("Value cannot be empty or whitespace only string.", "password");
             if (storedHash.Length != 64) throw new ArgumentException("Invalid length of password hash (64 bytes expected).", "passwordHash");
             if (storedSalt.Length != 128) throw new ArgumentException("Invalid length of password salt (128 bytes expected).", "passwordHash");
-
             using (var hmac = new System.Security.Cryptography.HMACSHA512(storedSalt))
             {
                 var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
@@ -355,15 +304,12 @@ namespace ThanksCardServer.DataAccess
                     if (computedHash[i] != storedHash[i]) return false;
                 }
             }
-
             return true;
         }
-
         //YME add
         public string DeleteDepartment(long? DeptID)
         {
             string result = "";
-
             if (context != null)
             {
                 try
@@ -378,15 +324,12 @@ namespace ThanksCardServer.DataAccess
                     result = "Something Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public string DeleteUser(long? User_ID)
         {
             string result = "";
-
             if (context != null)
             {
                 try
@@ -402,15 +345,12 @@ namespace ThanksCardServer.DataAccess
                     result = "Something Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public string DeleteCard(long? cardID)
         {
             string result = "";
-
             if (context != null)
             {
                 try
@@ -426,15 +366,12 @@ namespace ThanksCardServer.DataAccess
                     result = "Something Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public string DeleteRole(long? roleID)
         {
             string result = "";
-
             if (context != null)
             {
                 try
@@ -450,38 +387,16 @@ namespace ThanksCardServer.DataAccess
                     result = "Something Wrong";
                 }
             }
-
             return result;
         }
-
         //YME add
         public string ChangePassword(Users user, string newPwd)
         {
             string result = "";
-            //if (string.IsNullOrWhiteSpace(currentPwd) || string.IsNullOrWhiteSpace(newPwd))
-            //    result = "Password is required";
-            // check if username exists
             if (!context.Users.Any(x => x.User_Name == user.User_Name))           
                 result = "User Name does not exit";
             else
             {
-                // check if password is correct
-                //if (!context.Users.Any(x => x.Password == currentPwd))
-                //    result = "Current Password is Wrong";
-                //else
-                //{
-                    //byte[] passwordHash, passwordSalt;
-                    //CreatePasswordHash(newPwd, out passwordHash, out passwordSalt);
-                    //Users users = context.Users
-                    //                   .First(i => i.User_Name == user.User_Name);
-                    //user.Password = newPwd;
-                    //user.PasswordHash = passwordHash;
-                    //user.PasswordSalt = passwordSalt;
-                    //Users u = context.Users.Single(u => u.User_Name == user.User_Name);                    
-                    //u.Password = newPwd;
-                    //u.PasswordHash = passwordHash;
-                    //u.PasswordSalt = passwordSalt;
-                    // Query for a specific customer.
                     try
                     {
                         var u =
@@ -500,18 +415,15 @@ namespace ThanksCardServer.DataAccess
                     catch(Exception ex)
                     {
                         result = "Error";
-                    }
-                //}                
+                    }               
             }
             return result;
         }
-
         //YME add
         public async Task<List<UserDepartmentRole>> getUserInfoByName(string username)
         {
             if (context != null)
             {
-                //return await context.Cards.ToListAsync();
                 try
                 {
                     return await (from u in context.Users
@@ -540,10 +452,8 @@ namespace ThanksCardServer.DataAccess
 
                 }
             }
-
             return null;
         }
-
         //YME add        
         public async Task<List<Users>> getUserByDept(long? deptid,string username)
         {
@@ -561,19 +471,14 @@ namespace ThanksCardServer.DataAccess
                                   User_Name = u.User_Name
                               }).ToListAsync();
             }
-
             return null;
         }
-
-
         public async Task<List<LogSends>> SaveComposeToLogSends(LogSends ls)
         {
-            //var logsend;
             try
             {
                 context.LogSends.Add(ls);
                 context.SaveChanges();
-                //result = "Success";
                 return await context.LogSends.ToListAsync();
             }
             catch (Exception ex)
@@ -581,13 +486,10 @@ namespace ThanksCardServer.DataAccess
                 return null;
             }
         }
-
-
         //YME add
         public string DeleteLogSend(LogSends ls)
         {
             string result = "";
-
             if (context != null)
             {
                 try
@@ -602,10 +504,8 @@ namespace ThanksCardServer.DataAccess
                     result = "Something Wrong";
                 }
             }
-
             return result;
         }
-
         public async Task<List<LogReceives>> SaveComposeToLogReceives(LogReceives lr)
         {
             try
@@ -621,7 +521,6 @@ namespace ThanksCardServer.DataAccess
                 return null;
             }                        
         }
-
         //Yamin Add
         public async Task<List<InboxModel>> GetInboxData(InboxModel inbox)
         {
@@ -650,12 +549,9 @@ namespace ThanksCardServer.DataAccess
                                   SendLog_ID = lr.SendLog_ID,
                                   replyMsg = lr.replyMsg
                               }).ToListAsync();
-
             }
-
             return null;
         }
-
         public async Task<List<SendModel>> GetSendData(SendModel send)
         {
             if (context != null)
@@ -684,10 +580,8 @@ namespace ThanksCardServer.DataAccess
                                   SendLog_ID = ls.SendLog_ID
                               }).ToListAsync();
             }
-
             return null;
         }
-
         //yamin add
         public string SaveReplyMsgToLogSends(LogSends ls)
         {
@@ -709,7 +603,6 @@ namespace ThanksCardServer.DataAccess
             }
             return result;
         }
-
         //yamin add
         public string SaveReplyMsgToLogReceives(LogReceives lr)
         {
@@ -731,42 +624,14 @@ namespace ThanksCardServer.DataAccess
             }
             return result;
         }
-
-        //yamin add
-        //public string GetCardTotal(LogSends logsend, string deptname)
-        //{
-        //    if(context != null)
-        //    {
-        //        var count = ((from u in context.Users
-        //                      join ls in context.LogSends
-        //                      on u.User_ID equals ls.Receiver_ID
-        //                      join d in context.Departments
-        //                      on u.Department_ID equals d.Department_ID
-        //                      where u.IsActive == true &&
-        //                      ls.CreatedDateTime.Month == DateTime.Now.Month
-        //                      group ls by ls.Receiver_ID into newGroup
-        //                      select new
-        //                      {
-        //                          User_ID = newGroup.Key,
-        //                          CardTotal = newGroup.Count()
-        //                      })).Count().ToString();
-        //        return count;
-        //    }
-        //    return null;
-        //}
-
         public DataTable GetCardTotal(int Frommonth, int Tomonth, int year, long? deptid)
         {
             DataTable dt2 = new DataTable();
-            DataTable dt3 = new DataTable();
-            //dt2.Columns.Add("SenderID", typeof(long));
-            //dt2.Columns.Add("SenderName", typeof(string));
-            //dt2.Columns.Add("SenderDeptName", typeof(string));
+            DataTable dt3 = new DataTable();            
             dt2.Columns.Add("ReceiverID", typeof(long));
             dt2.Columns.Add("ReceiverName", typeof(string));
             dt2.Columns.Add("ReceiverDeptName", typeof(string));
             dt2.Columns.Add("TotalCount", typeof(int));
-
             //dt3 column            
             dt3.Columns.Add("SenderDeptName", typeof(string));            
             dt3.Columns.Add("ReceiverDeptName", typeof(string));
@@ -918,33 +783,9 @@ namespace ThanksCardServer.DataAccess
                                           count = 0
                                       })).ToList();
                 }
-                //else if (deptid != 0)
-                //{
-                //    groupbyResult = ((from u in context.Users
-                //                      join ls in context.LogSends
-                //                      on u.User_ID equals ls.Receiver_ID
-                //                      join d in context.Departments
-                //                      on u.Department_ID equals d.Department_ID
-                //                      where u.IsActive == true &&
-                //                      ls.Sender_DeptID == deptid
-                //                      select new LogSendInfo
-                //                      {
-                //                          Receiver_ID = ls.Receiver_ID,
-                //                          Sender_ID = ls.Sender_ID,
-                //                          CreatedDateTime = ls.CreatedDateTime,
-                //                          Sender_DeptID = ls.Sender_DeptID,
-                //                          Sender_DeptName = "",
-                //                          Receiver_DeptID = ls.Receiver_DeptID,
-                //                          Receiver_DeptName = "",
-                //                          Sender_Name = "",
-                //                          Receiver_Name = "",
-                //                          count = 0
-                //                      })).ToList();
-                //}
                 else
                 {
                     groupbyResult = ((from ls in context.LogSends
-                                      //from u in context.Users
                                       join u in context.Users
                                       on ls.Receiver_ID equals u.User_ID
                                       join d in context.Departments
@@ -1013,9 +854,6 @@ namespace ThanksCardServer.DataAccess
                                       ).FirstOrDefault();
                     item.count = rCount == null ? 0 : rCount.cnt;
                     DataRow row = dt2.NewRow();
-                    //row["SenderID"] = item.Sender_ID;
-                    //row["SenderName"] = sendername;
-                    //row["SenderDeptName"] = senderdept;
                     row["ReceiverID"] = item.Receiver_ID;
                     row["ReceiverName"] = receivername;
                     row["ReceiverDeptName"] = receiverdept;
@@ -1038,7 +876,6 @@ namespace ThanksCardServer.DataAccess
                             break;
                         }
                     }
-
                     if (isDistinct)
                     {
                         dt2.Rows.Add(row);
@@ -1056,8 +893,6 @@ namespace ThanksCardServer.DataAccess
                 foreach (var item in groupbyResult)
                 {
                     var rCount = (from p in context.LogSends
-                                  //join d in context.Departments
-                                  //on p.Sender_DeptID equals d.Department_ID
                                   where p.Receiver_DeptID == item.Receiver_DeptID &&
                                   p.Sender_DeptID == item.Sender_DeptID
                                   group p by
@@ -1090,7 +925,6 @@ namespace ThanksCardServer.DataAccess
                     row["SenderDeptName"] = senderdept;                                  
                     row["ReceiverDeptName"] = receiverdept;
                     row["TotalCount"] = item.count;
-
                     bool isDistinct = true;
                     for (int i = 0; i < dt3.Rows.Count; i++)
                     {
@@ -1102,7 +936,6 @@ namespace ThanksCardServer.DataAccess
                             break;
                         }
                     }
-
                     if (isDistinct)
                     {
                         dt3.Rows.Add(row);
@@ -1116,7 +949,6 @@ namespace ThanksCardServer.DataAccess
                     return null;
             }            
         }
-
         //yamin add
         public string DeleteReplyMsgFromLogSend(LogSends ls)
         {
@@ -1138,7 +970,6 @@ namespace ThanksCardServer.DataAccess
             }
             return result;
         }
-
         public DataTable GetDetailData(long? Rec_ID)
         {
             DataTable dtdetail = new DataTable();
@@ -1148,13 +979,10 @@ namespace ThanksCardServer.DataAccess
             dtdetail.Columns.Add("ReceiverID", typeof(long));
             dtdetail.Columns.Add("ReceiverName", typeof(string));
             dtdetail.Columns.Add("ReceiverDeptName", typeof(string));
-
             var groupbyResult = new List<LogSendInfo>(); ;
             if (context != null)
             {
-
                 groupbyResult = ((from ls in context.LogSends
-                                      //from u in context.Users
                                   join u in context.Users
                                   on ls.Receiver_ID equals u.User_ID
                                   join d in context.Departments
@@ -1204,7 +1032,6 @@ namespace ThanksCardServer.DataAccess
                                         select
                                             d.Department_Name
                                       ).FirstOrDefault();
-                    //item.count = rCount == null ? 0 : rCount.cnt;
                     DataRow row = dtdetail.NewRow();
                     row["SenderID"] = item.Sender_ID;
                     row["SenderName"] = sendername;
@@ -1212,8 +1039,6 @@ namespace ThanksCardServer.DataAccess
                     row["ReceiverID"] = item.Receiver_ID;
                     row["ReceiverName"] = receivername;
                     row["ReceiverDeptName"] = receiverdept;
-                    //row["TotalCount"] = item.count;
-
                     bool isDistinct = true;
                     for (int i = 0; i < dtdetail.Rows.Count; i++)
                     {
@@ -1224,14 +1049,7 @@ namespace ThanksCardServer.DataAccess
                             isDistinct = false;
                             break;
                         }
-                        //bool exists = dtdetail.AsEnumerable().Where(c => c.Field<long>("ReceiverID").Equals(item.Receiver_ID)).Count() > 0;
-                        //if (exists)
-                        //{
-                        //    isDistinct = false;
-                        //    break;
-                        //}
                     }
-
                     if (isDistinct)
                     {
                         dtdetail.Rows.Add(row);
@@ -1244,7 +1062,6 @@ namespace ThanksCardServer.DataAccess
             }
             else
                 return null;
-        }
-            
+        }            
     }  
 }

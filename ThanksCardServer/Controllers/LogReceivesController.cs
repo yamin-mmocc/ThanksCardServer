@@ -20,12 +20,10 @@ namespace ThanksCardServer.Controllers
         {
             postRepository = _postRepository;
         }
-
         [HttpPost] //YME add
         [Route("SaveReceives")]
         public string SaveData(LogReceives lr)
         {
-            //IDictionary<string, string> response = new Dictionary<string, string>();
             string result;
             try
             {
@@ -37,10 +35,7 @@ namespace ThanksCardServer.Controllers
                 result = "Error";
             }
             return JsonConvert.SerializeObject(result);
-
         }
-
-
         [HttpPost] //YME add
         [Route("GetInboxData")]
         public async Task<IActionResult> GetInboxData(InboxModel Inbox)
@@ -60,13 +55,10 @@ namespace ThanksCardServer.Controllers
                 return BadRequest();
             }
         }
-
-
         [HttpPost] //YME add
         [Route("SaveReplyMsgToLR")]
         public string SaveReplyMsg(LogReceives lr)
         {
-            //IDictionary<string, string> response = new Dictionary<string, string>();
             string result;
             try
             {
@@ -79,6 +71,5 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
-
     }
 }
