@@ -76,19 +76,21 @@ namespace ThanksCardServer.Controllers
         }
         [HttpPost] //YME add
         [Route("SaveReplyMsgToLS")]
-        public string SaveReplyMsg(LogSends ls)
+        public async Task<IActionResult> SaveReplyMsg(LogSends ls)
         {
-            string result;
             try
             {
-                // save 
-                result = postRepository.SaveReplyMsgToLogSends(ls).ToString();
+                var logsend = await postRepository.SaveReplyMsgToLogSends(ls);
+                if (logsend == null)
+                {
+                    return NotFound();
+                }
+                return Ok(logsend);
             }
             catch (Exception)
             {
-                result = "Error";
+                return BadRequest();
             }
-            return JsonConvert.SerializeObject(result);
         }
         [HttpPost] //YME add
         [Route("GetTotal")]

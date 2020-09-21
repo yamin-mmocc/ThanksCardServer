@@ -632,9 +632,8 @@ namespace ThanksCardServer.DataAccess
             return null;
         }
         //yamin add
-        public string SaveReplyMsgToLogSends(LogSends ls)
+        public async Task<List<LogSends>> SaveReplyMsgToLogSends(LogSends ls)
         {
-            string result = "";
             try
             {
                 var logsend =
@@ -644,13 +643,12 @@ namespace ThanksCardServer.DataAccess
                 // update the reply message.
                 logsend.replyMsg = ls.replyMsg;
                 context.SaveChanges();
-                result = "Success";
+                return await context.LogSends.ToListAsync();
             }
             catch (Exception ex)
             {
-                result = "Error";
-            }
-            return result;
+                return null;
+            }            
         }
         //yamin add
         public string SaveReplyMsgToLogReceives(LogReceives lr)

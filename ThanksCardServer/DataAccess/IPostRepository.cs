@@ -33,7 +33,7 @@ namespace ThanksCardServer.DataAccess
         Task<List<LogReceives>> SaveComposeToLogReceives(LogReceives lr);//YME add
         Task<List<InboxModel>> GetInboxData(InboxModel inbox); //YME add
         Task<List<SendModel>> GetSendData(SendModel send); //YME add
-        string SaveReplyMsgToLogSends(LogSends ls); //YME add
+        Task<List<LogSends>> SaveReplyMsgToLogSends(LogSends ls);//YME add
         string DeleteReplyMsgFromLogSend(LogSends ls); //YME add
         string SaveReplyMsgToLogReceives(LogReceives lr); //YME add
         DataTable GetCardTotal(int Frommonth, int Tomonth, int year, long? deptid); //YME add
