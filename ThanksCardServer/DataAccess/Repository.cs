@@ -327,16 +327,40 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
         //YME add
-        public string DeleteUser(long? User_ID)
+        public string DeleteUser(Users user)
         {
             string result = "";
             if (context != null)
             {
                 try
                 {
-                    Users user = context.Users
-                                       .First(i => i.User_ID == User_ID);
-                    user.IsActive = false;
+                    Users u = context.Users
+                                       .First(i => i.User_ID == user.User_ID);
+                    u.IsActive = false;
+                    u.timeStamp = user.timeStamp;
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+            return result;
+        }
+
+        //YME add
+        public string UpdateDepartment(Departments dept)
+        {
+            string result = "";
+            if (context != null)
+            {
+                try
+                {
+                    Departments d = context.Departments
+                                       .First(i => i.Department_ID == dept.Department_ID);
+                    d.Department_Name = dept.Department_Name;
+                    d.timeStamp = dept.timeStamp;
                     context.SaveChanges();
                     result = "Successfully Deleted";
                 }
@@ -390,10 +414,35 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
         //YME add
+
+        //YME add
+        public string UpdateRole(Roles role)
+        {
+            string result = "";
+            if (context != null)
+            {
+                try
+                {
+                    Roles r = context.Roles
+                                       .First(i => i.Role_ID == role.Role_ID);
+                    r.Role_Type = role.Role_Type;
+                    r.timeStamp = role.timeStamp;
+                    context.SaveChanges();
+                    result = "Successfully Deleted";
+                }
+                catch (Exception ex)
+                {
+                    result = "Something Wrong";
+                }
+            }
+            return result;
+        }
+
+        //YME add
         public string ChangePassword(Users user, string newPwd)
         {
             string result = "";
-            if (!context.Users.Any(x => x.User_Name == user.User_Name))           
+            if (!context.Users.Any(x => x.User_Name == user.User_Name))
                 result = "User Name does not exit";
             else
             {
@@ -664,30 +713,30 @@ namespace ThanksCardServer.DataAccess
                                           count = 0
                                       })).ToList();
                 }
-                else if (Frommonth != 0 && Tomonth != 0)
-                {
-                    groupbyResult = ((from u in context.Users
-                                      join ls in context.LogSends
-                                      on u.User_ID equals ls.Receiver_ID
-                                      join d in context.Departments
-                                      on u.Department_ID equals d.Department_ID
-                                      where u.IsActive == true &&
-                                      ls.CreatedDateTime.Month >= Frommonth &&
-                                      ls.CreatedDateTime.Month <= Tomonth
-                                      select new LogSendInfo
-                                      {
-                                          Receiver_ID = ls.Receiver_ID,
-                                          Sender_ID = ls.Sender_ID,
-                                          CreatedDateTime = ls.CreatedDateTime,
-                                          Sender_DeptID = ls.Sender_DeptID,
-                                          Sender_DeptName = "",
-                                          Receiver_DeptID = ls.Receiver_DeptID,
-                                          Receiver_DeptName = "",
-                                          Sender_Name = "",
-                                          Receiver_Name = "",
-                                          count = 0
-                                      })).ToList();
-                }
+                //else if (Frommonth != 0 && Tomonth != 0)
+                //{
+                //    groupbyResult = ((from u in context.Users
+                //                      join ls in context.LogSends
+                //                      on u.User_ID equals ls.Receiver_ID
+                //                      join d in context.Departments
+                //                      on u.Department_ID equals d.Department_ID
+                //                      where u.IsActive == true &&
+                //                      ls.CreatedDateTime.Month >= Frommonth &&
+                //                      ls.CreatedDateTime.Month <= Tomonth
+                //                      select new LogSendInfo
+                //                      {
+                //                          Receiver_ID = ls.Receiver_ID,
+                //                          Sender_ID = ls.Sender_ID,
+                //                          CreatedDateTime = ls.CreatedDateTime,
+                //                          Sender_DeptID = ls.Sender_DeptID,
+                //                          Sender_DeptName = "",
+                //                          Receiver_DeptID = ls.Receiver_DeptID,
+                //                          Receiver_DeptName = "",
+                //                          Sender_Name = "",
+                //                          Receiver_Name = "",
+                //                          count = 0
+                //                      })).ToList();
+                //}
                 else if (year != 0)
                 {
                     groupbyResult = ((from u in context.Users
@@ -711,78 +760,78 @@ namespace ThanksCardServer.DataAccess
                                           count = 0
                                       })).ToList();
                 }
-                else if(year != 0 && Frommonth != 0 && Tomonth != 0)
-                {
-                    groupbyResult = ((from u in context.Users
-                                      join ls in context.LogSends
-                                      on u.User_ID equals ls.Receiver_ID
-                                      join d in context.Departments
-                                      on u.Department_ID equals d.Department_ID
-                                      where u.IsActive == true &&
-                                      ls.CreatedDateTime.Month <= Frommonth &&
-                                      ls.CreatedDateTime.Month >= Tomonth &&
-                                      ls.CreatedDateTime.Year == year
-                                      select new LogSendInfo
-                                      {
-                                          Receiver_ID = ls.Receiver_ID,
-                                          Sender_ID = ls.Sender_ID,
-                                          CreatedDateTime = ls.CreatedDateTime,
-                                          Sender_DeptID = ls.Sender_DeptID,
-                                          Sender_DeptName = "",
-                                          Receiver_DeptID = ls.Receiver_DeptID,
-                                          Receiver_DeptName = "",
-                                          Sender_Name = "",
-                                          Receiver_Name = "",
-                                          count = 0
-                                      })).ToList();
-                }
-                else if( Frommonth != 0 && Tomonth != 0)
-                {
-                    groupbyResult = ((from u in context.Users
-                                      join ls in context.LogSends
-                                      on u.User_ID equals ls.Receiver_ID
-                                      join d in context.Departments
-                                      on u.Department_ID equals d.Department_ID
-                                      where u.IsActive == true &&
-                                      ls.CreatedDateTime.Month <= Frommonth &&
-                                      ls.CreatedDateTime.Month >= Tomonth 
-                                      select new LogSendInfo
-                                      {
-                                          Receiver_ID = ls.Receiver_ID,
-                                          Sender_ID = ls.Sender_ID,
-                                          CreatedDateTime = ls.CreatedDateTime,
-                                          Sender_DeptID = ls.Sender_DeptID,
-                                          Sender_DeptName = "",
-                                          Receiver_DeptID = ls.Receiver_DeptID,
-                                          Receiver_DeptName = "",
-                                          Sender_Name = "",
-                                          Receiver_Name = "",
-                                          count = 0
-                                      })).ToList();
-                }
-                else if( year != 0)
-                {
-                    groupbyResult = ((from u in context.Users
-                                      join ls in context.LogSends
-                                      on u.User_ID equals ls.Receiver_ID
-                                      join d in context.Departments
-                                      on u.Department_ID equals d.Department_ID
-                                      where u.IsActive == true &&
-                                      ls.CreatedDateTime.Year == year
-                                      select new LogSendInfo
-                                      {
-                                          Receiver_ID = ls.Receiver_ID,
-                                          Sender_ID = ls.Sender_ID,
-                                          CreatedDateTime = ls.CreatedDateTime,
-                                          Sender_DeptID = ls.Sender_DeptID,
-                                          Sender_DeptName = "",
-                                          Receiver_DeptID = ls.Receiver_DeptID,
-                                          Receiver_DeptName = "",
-                                          Sender_Name = "",
-                                          Receiver_Name = "",
-                                          count = 0
-                                      })).ToList();
-                }
+                //else if(year != 0 && Frommonth != 0 && Tomonth != 0)
+                //{
+                //    groupbyResult = ((from u in context.Users
+                //                      join ls in context.LogSends
+                //                      on u.User_ID equals ls.Receiver_ID
+                //                      join d in context.Departments
+                //                      on u.Department_ID equals d.Department_ID
+                //                      where u.IsActive == true &&
+                //                      ls.CreatedDateTime.Month <= Frommonth &&
+                //                      ls.CreatedDateTime.Month >= Tomonth &&
+                //                      ls.CreatedDateTime.Year == year
+                //                      select new LogSendInfo
+                //                      {
+                //                          Receiver_ID = ls.Receiver_ID,
+                //                          Sender_ID = ls.Sender_ID,
+                //                          CreatedDateTime = ls.CreatedDateTime,
+                //                          Sender_DeptID = ls.Sender_DeptID,
+                //                          Sender_DeptName = "",
+                //                          Receiver_DeptID = ls.Receiver_DeptID,
+                //                          Receiver_DeptName = "",
+                //                          Sender_Name = "",
+                //                          Receiver_Name = "",
+                //                          count = 0
+                //                      })).ToList();
+                //}
+                //else if( Frommonth != 0 && Tomonth != 0)
+                //{
+                //    groupbyResult = ((from u in context.Users
+                //                      join ls in context.LogSends
+                //                      on u.User_ID equals ls.Receiver_ID
+                //                      join d in context.Departments
+                //                      on u.Department_ID equals d.Department_ID
+                //                      where u.IsActive == true &&
+                //                      ls.CreatedDateTime.Month <= Frommonth &&
+                //                      ls.CreatedDateTime.Month >= Tomonth 
+                //                      select new LogSendInfo
+                //                      {
+                //                          Receiver_ID = ls.Receiver_ID,
+                //                          Sender_ID = ls.Sender_ID,
+                //                          CreatedDateTime = ls.CreatedDateTime,
+                //                          Sender_DeptID = ls.Sender_DeptID,
+                //                          Sender_DeptName = "",
+                //                          Receiver_DeptID = ls.Receiver_DeptID,
+                //                          Receiver_DeptName = "",
+                //                          Sender_Name = "",
+                //                          Receiver_Name = "",
+                //                          count = 0
+                //                      })).ToList();
+                //}
+                //else if( year != 0)
+                //{
+                //    groupbyResult = ((from u in context.Users
+                //                      join ls in context.LogSends
+                //                      on u.User_ID equals ls.Receiver_ID
+                //                      join d in context.Departments
+                //                      on u.Department_ID equals d.Department_ID
+                //                      where u.IsActive == true &&
+                //                      ls.CreatedDateTime.Year == year
+                //                      select new LogSendInfo
+                //                      {
+                //                          Receiver_ID = ls.Receiver_ID,
+                //                          Sender_ID = ls.Sender_ID,
+                //                          CreatedDateTime = ls.CreatedDateTime,
+                //                          Sender_DeptID = ls.Sender_DeptID,
+                //                          Sender_DeptName = "",
+                //                          Receiver_DeptID = ls.Receiver_DeptID,
+                //                          Receiver_DeptName = "",
+                //                          Sender_Name = "",
+                //                          Receiver_Name = "",
+                //                          count = 0
+                //                      })).ToList();
+                //}
                 else
                 {
                     groupbyResult = ((from ls in context.LogSends

@@ -12,9 +12,10 @@ namespace ThanksCardServer.DataAccess
         Task<List<Departments>> GetDepartments(); //YME add
         string CreateDepartments(Departments dept); //YME add
         string DeleteDepartment(long? Department_ID); //YME add
+        string UpdateDepartment(Departments dept); //YME add
         Task<List<UserDepartmentRole>> GetUsers(string name, string deptname); //YME add
         string CreateUsers(Users user, string password); //YME add
-        string DeleteUser(long? User_ID); //YME add
+        string DeleteUser(Users user); //YME add
         Task<List<UserDepartmentRole>> getUserInfoByName(string username); //YME add
         //Task<List<Users>> getUserByDept(string deptname); //YME add
         Task<List<Users>> getUserByDept(long? deptid,string username); //YME add
@@ -24,6 +25,7 @@ namespace ThanksCardServer.DataAccess
         Task<List<Roles>> GetRoles(); //YME add
         string CreateRoles(Roles role); //YME add
         string DeleteRole(long? roleID); //YME add
+        string UpdateRole(Roles role);
         Users Authenticate(string username, string password); //YME add
         string ChangePassword(Users user, string newPwd); //YME add
         Task<List<LogSends>> SaveComposeToLogSends(LogSends ls);//YME add

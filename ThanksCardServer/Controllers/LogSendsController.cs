@@ -58,7 +58,7 @@ namespace ThanksCardServer.Controllers
         }
         [HttpPost] //YME add
         [Route("GetSendData")]
-        public async Task<IActionResult> GetInboxData(SendModel send)
+        public async Task<IActionResult> GetSendData(SendModel send)
         {
             try
             {

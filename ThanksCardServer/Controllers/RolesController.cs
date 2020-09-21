@@ -72,5 +72,23 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost] //YME add
+        [Route("UpdateRoleName")]
+        public string Update(Roles role)
+        {
+            string result = "";
+            try
+            {
+                if (role != null)
+                    // update 
+                    result = postRepository.UpdateRole(role).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

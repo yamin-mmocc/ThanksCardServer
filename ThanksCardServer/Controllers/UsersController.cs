@@ -72,14 +72,14 @@ namespace ThanksCardServer.Controllers
         }
         [HttpPost] //YME add
         [Route("DeleteUser")]
-        public string Delete(long UserID)
+        public string Delete(Users user)
         {
             string result = "";
             try
             {
-                if ( UserID != 0)
+                if ( user != null)
                     // delete 
-                    result = postRepository.DeleteUser(UserID).ToString();
+                    result = postRepository.DeleteUser(user).ToString();
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace ThanksCardServer.Controllers
             try
             {
                 // save 
-                result = postRepository.ChangePassword(user,user.Password).ToString();
+                result = postRepository.ChangePassword(user, user.Password).ToString();
             }
             catch (Exception)
             {

@@ -78,5 +78,23 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost] //YME add
+        [Route("UpdateDeptName")]
+        public string Update(Departments dept)
+        {
+            string result = "";
+            try
+            {
+                if (dept != null)
+                    // update 
+                    result = postRepository.UpdateDepartment(dept).ToString();
+            }
+            catch (Exception ex)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }
