@@ -87,6 +87,24 @@ namespace ThanksCardServer.Controllers
             }
             return JsonConvert.SerializeObject(result);
         }
+
+        [HttpPost] //YME add
+        [Route("CheckPassword")]
+        public string PasswordCheck(Users user)
+        {
+            string result = "";
+            try
+            {
+                // save 
+                result = postRepository.CheckPassword(user, user.Password).ToString();
+            }
+            catch (Exception)
+            {
+                result = "Error";
+            }
+            return JsonConvert.SerializeObject(result);
+        }
+
         [HttpPost] //YME add
         [Route("ChangePassword")]
         public string PasswordChange(Users user)

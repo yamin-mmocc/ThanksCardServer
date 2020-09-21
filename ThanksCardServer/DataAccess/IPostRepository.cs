@@ -27,6 +27,7 @@ namespace ThanksCardServer.DataAccess
         string DeleteRole(long? roleID); //YME add
         string UpdateRole(Roles role);
         Users Authenticate(string username, string password); //YME add
+        string CheckPassword(Users user,string Pwd); //YME add
         string ChangePassword(Users user, string newPwd); //YME add
         Task<List<LogSends>> SaveComposeToLogSends(LogSends ls);//YME add
         string DeleteLogSend(LogSends ls); //YME add

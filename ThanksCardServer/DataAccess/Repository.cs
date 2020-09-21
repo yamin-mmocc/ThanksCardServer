@@ -438,6 +438,20 @@ namespace ThanksCardServer.DataAccess
             return result;
         }
 
+        public string  CheckPassword(Users user, string Pwd)
+        {
+            string result = "";
+            if (context.Users.Any(x => x.User_Name == user.User_Name && x.Password == Pwd))
+            {
+                result = "OK";
+            }
+            else
+            {
+                result = "Old password is wrong.";
+            }
+            return result;
+        }
+
         //YME add
         public string ChangePassword(Users user, string newPwd)
         {
